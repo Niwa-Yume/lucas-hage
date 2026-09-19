@@ -1,8 +1,10 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 
-const ETABLI = '/assets/image00014.PNG'
-const CROQUIS = '/assets/image00012.PNG'
+const VIDEO = '/assets/qui-suis-je.mp4'
+const POSTER_VIDEO = '/assets/qui-suis-je-poster.jpg'
+const ATELIER = '/assets/atelier-lucas.jpg'
+const CROQUIS = '/assets/atelier-croquis.jpg'
 ---
 
 <Layout
@@ -20,10 +22,10 @@ const CROQUIS = '/assets/image00012.PNG'
     class="grid items-center gap-10 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
   >
     <img
-      src={ETABLI}
-      alt="L'établi de l'atelier : limes, bouterolles, boule de sertisseur et flacons de pierres sur les étagères."
-      width="2652"
-      height="3201"
+      src={ATELIER}
+      alt="Lucas Hage assis à l'atelier, carnet de croquis sur les genoux, bagues en argent aux doigts."
+      width="2400"
+      height="1600"
       loading="lazy"
       class="w-full"
     />
@@ -44,12 +46,26 @@ const CROQUIS = '/assets/image00012.PNG'
     </div>
     <img
       src={CROQUIS}
-      alt="Lucas Hage dessine au fusain deux projets de bijoux sur un carnet, à l'atelier."
-      width="3456"
-      height="4320"
+      alt="Lucas Hage dessine au fusain deux projets de bijoux animaliers sur un carnet posé sur ses genoux."
+      width="1920"
+      height="2400"
       loading="lazy"
       class="w-full md:order-1"
     />
+  </section>
+
+  <section class="px-5 pb-section-mobile md:px-8 md:pb-section">
+    <h2 class="libelle">En vidéo</h2>
+    <video
+      class="mt-5 w-full bg-encre"
+      controls
+      playsinline
+      preload="none"
+      poster={POSTER_VIDEO}
+    >
+      <source src={VIDEO} type="video/mp4" />
+      Votre navigateur ne peut pas lire cette vidéo.
+    </video>
   </section>
 
   <section class="px-5 pb-section-mobile md:px-8 md:pb-section">
@@ -59,5 +75,11 @@ const CROQUIS = '/assets/image00012.PNG'
       se prennent directement par WhatsApp.
     </p>
     <p class="mt-4 text-courant">À RÉDIGER</p>
+    <a
+      href="/contact"
+      class="libelle mt-8 inline-block border border-encre px-5 py-3 text-encre transition-colors hover:bg-encre hover:text-papier"
+    >
+      Prendre contact
+    </a>
   </section>
 </Layout>

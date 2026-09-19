@@ -1,32 +1,30 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 
-const VIDEO = encodeURI('/assets/Lucas Hage vidéo 2.mp4')
-
 const IMAGES = [
   {
-    src: '/assets/image00017.png',
-    alt: "Buste en veste noire, mains ornées de bagues, bracelets et chaînes en argent.",
-    width: 4908,
-    height: 3272,
+    src: '/assets/inspiration-01.jpg',
+    alt: "Buste en veste noire, mains couvertes de bagues, bracelets et chaînes en argent.",
+    width: 2400,
+    height: 1600,
   },
   {
-    src: '/assets/image00016.png',
-    alt: "Main portant plusieurs bagues en argent aux formes anguleuses, devant un visage.",
-    width: 3456,
-    height: 5184,
+    src: '/assets/hero-secondaire.jpg',
+    alt: "Main portant cinq bagues en argent aux formes anguleuses, reliées par une chaîne, devant un visage.",
+    width: 1600,
+    height: 2400,
   },
   {
-    src: '/assets/image00012.PNG',
-    alt: "Lucas Hage dessine au fusain deux projets de bijoux sur un carnet, à l'atelier.",
-    width: 3456,
-    height: 4320,
+    src: '/assets/campagne-chaines.jpg',
+    alt: "Pendentif ciselé en forme de cœur, suspendu à plusieurs chaînes en argent portées à même la peau, en noir et blanc.",
+    width: 1600,
+    height: 2400,
   },
   {
-    src: '/assets/image00015.PNG',
-    alt: "Pendentif ciselé en forme de cœur anatomique, suspendu à des chaînes en argent, en noir et blanc.",
-    width: 813,
-    height: 1219,
+    src: '/assets/atelier-croquis.jpg',
+    alt: "Lucas Hage dessine au fusain deux projets de bijoux animaliers sur un carnet posé sur ses genoux.",
+    width: 1920,
+    height: 2400,
   },
 ]
 ---
@@ -42,21 +40,6 @@ const IMAGES = [
     </h1>
     <p class="mt-6 text-courant">À RÉDIGER</p>
   </header>
-
-  <section class="px-5 pb-10 md:px-8 md:pb-16">
-    <video
-      class="w-full bg-encre"
-      controls
-      muted
-      playsinline
-      preload="none"
-      poster="/assets/image00017.png"
-    >
-      <source src={VIDEO} type="video/mp4" />
-      Votre navigateur ne peut pas lire cette vidéo.
-    </video>
-    <p class="libelle mt-3">À RÉDIGER</p>
-  </section>
 
   <section
     class="grid gap-5 px-5 pb-section-mobile md:grid-cols-2 md:gap-8 md:px-8 md:pb-section"

@@ -10,7 +10,7 @@ interface Props {
   image?: string
 }
 
-const { title, description, image = '/assets/image00017.png' } = Astro.props
+const { title, description, image = '/assets/hero-poster.jpg' } = Astro.props
 
 const base = Astro.site ?? new URL('https://lucas-hage.com')
 const urlCanonique = new URL(Astro.url.pathname, base)
@@ -27,7 +27,7 @@ const urlImage = new URL(image, base)
     <meta name="description" content={description} />
     <link rel="canonical" href={urlCanonique.href} />
 
-    <link rel="icon" href="/assets/LOGO_Noir.svg" type="image/svg+xml" />
+    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Lucas Hage" />

@@ -13,14 +13,16 @@ const chemin = Astro.url.pathname
 const rendezVous = lienRendezVous()
 ---
 
-<header class="border-b border-encre bg-papier">
+<header class="sticky top-0 z-40 border-b border-encre bg-papier">
   <div class="flex items-center justify-between gap-6 px-5 py-4 md:px-8">
     <a href="/" class="shrink-0" aria-label="Lucas Hage, accueil">
       <img
-        src="/assets/LOGO_Noir.svg"
+        src="/logo.svg"
         alt="Monogramme HL de Lucas Hage"
         width="26"
         height="32"
+        loading="eager"
+        fetchpriority="high"
         class="h-8 w-auto"
       />
     </a>
@@ -32,7 +34,7 @@ const rendezVous = lienRendezVous()
             <li>
               <a
                 href={href}
-                class="libelle text-encre hover:text-plomb"
+                class="libelle text-encre transition-colors hover:text-plomb aria-[current=page]:underline aria-[current=page]:underline-offset-4"
                 aria-current={chemin.startsWith(href) ? 'page' : undefined}
               >
                 {libelle}
@@ -45,7 +47,7 @@ const rendezVous = lienRendezVous()
             href={rendezVous}
             target="_blank"
             rel="noopener noreferrer"
-            class="libelle border border-encre bg-encre px-4 py-2.5 text-papier hover:bg-papier hover:text-encre"
+            class="libelle border border-encre bg-encre px-4 py-2.5 text-papier transition-colors hover:bg-papier hover:text-encre"
           >
             Prendre rendez-vous
           </a>
@@ -56,7 +58,7 @@ const rendezVous = lienRendezVous()
     <button
       type="button"
       id="menu-bouton"
-      class="libelle text-encre md:hidden"
+      class="libelle -mr-2 px-2 py-2 text-encre md:hidden"
       aria-expanded="false"
       aria-controls="menu-mobile"
     >
@@ -68,11 +70,14 @@ const rendezVous = lienRendezVous()
   <div
     id="menu-mobile"
     hidden
+    role="dialog"
+    aria-modal="true"
+    aria-label="Navigation"
     class="fixed inset-0 z-40 flex flex-col bg-papier md:hidden"
   >
     <div class="flex items-center justify-between border-b border-encre px-5 py-4">
       <span class="libelle text-encre">Navigation</span>
-      <button type="button" id="menu-fermer" class="libelle text-encre">
+      <button type="button" id="menu-fermer" class="libelle -mr-2 px-2 py-2 text-encre">
         Fermer
       </button>
     </div>
@@ -114,11 +119,16 @@ const rendezVous = lienRendezVous()
   const menu = document.getElementById('menu-mobile')
 
   if (bouton && fermer && menu) {
+    const focalisables = () =>
+      Array.from(
+        menu.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
+      )
+
     const ouvrir = () => {
       menu.hidden = false
       bouton.setAttribute('aria-expanded', 'true')
       document.documentElement.style.overflow = 'hidden'
-      menu.querySelector<HTMLElement>('a, button')?.focus()
+      focalisables()[0]?.focus()
     }
 
     const refermer = () => {
@@ -132,7 +142,35 @@ const rendezVous = lienRendezVous()
     fermer.addEventListener('click', refermer)
 
     document.addEventListener('keydown', (evenement) => {
-      if (evenement.key === 'Escape' && !menu.hidden) refermer()
+      if (menu.hidden) return
+
+      if (evenement.key === 'Escape') {
+        refermer()
+        return
+      }
+
+      // Le clavier reste enferme dans le menu tant qu'il est ouvert.
+      if (evenement.key === 'Tab') {
+        const elements = focalisables()
+        if (elements.length === 0) return
+
+        const premier = elements[0]!
+        const dernier = elements[elements.length - 1]!
+        const actif = document.activeElement
+
+        if (evenement.shiftKey && actif === premier) {
+          evenement.preventDefault()
+          dernier.focus()
+        } else if (!evenement.shiftKey && actif === dernier) {
+          evenement.preventDefault()
+          premier.focus()
+        }
+      }
+    })
+
+    // Le menu plein ecran n'a plus de raison d'etre en vue bureau.
+    window.matchMedia('(min-width: 768px)').addEventListener('change', (vue) => {
+      if (vue.matches && !menu.hidden) refermer()
     })
   }
 </script>

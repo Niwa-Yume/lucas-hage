@@ -1,11 +1,12 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import { COLLECTIONS } from '@/data/collections'
+import { lienRendezVous } from '@/lib/whatsapp'
 
-// Les fichiers de public/assets/ contiennent des espaces : on encode l'URL.
-const VIDEO_HERO = encodeURI('/assets/teaser v14 Lucas 2.mp4')
-const POSTER_HERO = '/assets/image00015.PNG'
-const ETABLI = '/assets/image00014.PNG'
+const VIDEO_HERO = '/assets/hero.mp4'
+const POSTER_HERO = '/assets/hero-poster.jpg'
+const PORTRAIT = '/assets/portrait-lucas.jpg'
+const rendezVous = lienRendezVous()
 ---
 
 <Layout
@@ -27,12 +28,15 @@ const ETABLI = '/assets/image00014.PNG'
       <source src={VIDEO_HERO} type="video/mp4" />
     </video>
 
+    <!-- Voile sombre : garantit la lisibilite du titre quelle que soit l'image. -->
+    <div class="absolute inset-0 bg-encre/35" aria-hidden="true"></div>
+
     <img
       class="hero-repli absolute inset-0 h-full w-full object-cover"
       src={POSTER_HERO}
-      alt="Chaînes en argent et pendentif ciselé portés à même la peau, en noir et blanc."
-      width="813"
-      height="1219"
+      alt="Lucas Hage, penché sur son établi éclairé, façonne une pièce à la main dans l'atelier."
+      width="1920"
+      height="1080"
     />
 
     <div
@@ -42,11 +46,33 @@ const ETABLI = '/assets/image00014.PNG'
       <p class="mt-5 text-courant">
         Créateur et artisan suisse de bijoux sur mesure
       </p>
+
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+        <a
+          href="/collections"
+          class="libelle border border-papier px-6 py-4 text-papier transition-colors hover:bg-papier hover:text-encre"
+        >
+          Voir les collections
+        </a>
+        <a
+          href={rendezVous}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="libelle border border-papier bg-papier px-6 py-4 text-encre transition-colors hover:bg-transparent hover:text-papier"
+        >
+          Prendre rendez-vous
+        </a>
+      </div>
     </div>
   </section>
 
   <section class="px-5 py-section-mobile md:px-8 md:py-section">
-    <p class="libelle">Collections</p>
+    <div class="flex items-baseline justify-between gap-6">
+      <h2 class="libelle">Collections</h2>
+      <a href="/collections" class="libelle underline-offset-4 hover:underline">
+        Tout voir
+      </a>
+    </div>
     <div class="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-4 md:gap-x-8">
       {
         COLLECTIONS.map((collection) => (
@@ -62,9 +88,9 @@ const ETABLI = '/assets/image00014.PNG'
                   class="aspect-[3/4] w-full object-cover"
                 />
               </div>
-              <h2 class="mt-4 font-titre text-intertitre leading-tight underline-offset-4 group-hover:underline">
+              <h3 class="mt-4 font-titre text-intertitre leading-tight underline-offset-4 group-hover:underline">
                 {collection.nom}
-              </h2>
+              </h3>
             </a>
           </article>
         ))
@@ -76,10 +102,10 @@ const ETABLI = '/assets/image00014.PNG'
     class="grid items-center gap-10 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
   >
     <img
-      src={ETABLI}
-      alt="L'établi de l'atelier : limes, bouterolles, boule de sertisseur et flacons de pierres sur les étagères."
-      width="2652"
-      height="3201"
+      src={PORTRAIT}
+      alt="Lucas Hage, loupe de joaillier relevée sur le front, travaille une pièce à sa table de dessin."
+      width="2400"
+      height="1600"
       loading="lazy"
       class="w-full"
     />

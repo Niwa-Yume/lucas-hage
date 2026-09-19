@@ -1,0 +1,34 @@
+---
+import Layout from '@/layouts/Layout.astro'
+---
+
+<Layout
+  title="Page introuvable — Lucas Hage"
+  description="Cette page n'existe pas ou n'existe plus."
+>
+  <section class="px-5 py-section-mobile md:px-8 md:py-section">
+    <p class="libelle">Erreur 404</p>
+    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
+      Cette page n'existe pas
+    </h1>
+    <p class="mt-6 text-courant">
+      Le lien est peut-être erroné, ou la page a été retirée. Vous pouvez
+      reprendre par les collections ou revenir à l'accueil.
+    </p>
+
+    <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+      <a
+        href="/collections"
+        class="libelle border border-encre bg-encre px-6 py-4 text-papier transition-colors hover:bg-papier hover:text-encre"
+      >
+        Voir les collections
+      </a>
+      <a
+        href="/"
+        class="libelle border border-encre px-6 py-4 text-encre transition-colors hover:bg-encre hover:text-papier"
+      >
+        Retour à l'accueil
+      </a>
+    </div>
+  </section>
+</Layout>

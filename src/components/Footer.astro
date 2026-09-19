@@ -55,11 +55,12 @@ const annee = new Date().getFullYear()
           required
           autocomplete="email"
           placeholder="votre@email.ch"
+          aria-describedby="newsletter-message"
           class="w-full border border-encre bg-papier px-3 py-3 text-courant placeholder:text-plomb sm:max-w-64"
         />
         <button
           type="submit"
-          class="libelle border border-encre bg-encre px-5 py-3 text-papier hover:bg-papier hover:text-encre"
+          class="libelle border border-encre bg-encre px-5 py-3 text-papier transition-colors hover:bg-papier hover:text-encre disabled:cursor-not-allowed disabled:opacity-60"
         >
           S'inscrire
         </button>
