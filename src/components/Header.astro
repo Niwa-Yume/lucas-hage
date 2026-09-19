@@ -1,21 +1,38 @@
 ---
-import { lienRendezVous } from '@/lib/whatsapp'
+interface Props {
+  /** Vrai sur l'accueil : le menu se superpose au hero au lieu d'occuper le flux. */
+  superpose?: boolean
+}
 
-const LIENS = [
-  { href: '/collections', libelle: 'Collections' },
-  { href: '/patrimoine', libelle: 'Patrimoine' },
-  { href: '/inspiration', libelle: 'Inspiration' },
-  { href: '/qui-suis-je', libelle: 'Qui suis-je' },
-  { href: '/contact', libelle: 'Contact' },
-]
+const { superpose = false } = Astro.props
 
 const chemin = Astro.url.pathname
-const rendezVous = lienRendezVous()
+
+// Longueurs de filets volontairement fixees, croissantes a l'interieur
+// de chaque groupe : la hierarchie se lit a la longueur du trait.
+const MENU_GAUCHE = [
+  { href: '/', libelle: 'Accueil', filet: 88 },
+  { href: '/collections', libelle: 'Collections', filet: 120 },
+]
+
+const PAGES_MENU = [
+  { href: '/qui-suis-je', libelle: 'Qui suis-je', filet: 112 },
+  { href: '/patrimoine', libelle: 'Patrimoine', filet: 144 },
+  { href: '/inspiration', libelle: 'Inspiration', filet: 176 },
+]
+
+const estActif = (href: string) => chemin === href.split('?')[0]
 ---
 
-<header class="sticky top-0 z-40 border-b border-encre bg-papier">
-  <div class="flex items-center justify-between gap-6 px-5 py-4 md:px-8">
-    <a href="/" class="shrink-0" aria-label="Lucas Hage, accueil">
+<header
+  class:list={[
+    'z-40 w-full',
+    superpose ? 'absolute inset-x-0 top-0 text-papier' : 'relative bg-papier text-encre',
+  ]}
+>
+  <!-- Barre compacte sous 1024px -->
+  <div class="flex items-center justify-between px-5 py-4 lg:hidden">
+    <a href="/" aria-label="Lucas Hage, accueil">
       <img
         src="/logo.svg"
         alt="Monogramme HL de Lucas Hage"
@@ -27,91 +44,167 @@ const rendezVous = lienRendezVous()
       />
     </a>
 
-    <nav class="hidden md:block" aria-label="Navigation principale">
-      <ul class="flex items-center gap-7">
-        {
-          LIENS.map(({ href, libelle }) => (
-            <li>
-              <a
-                href={href}
-                class="libelle text-encre transition-colors hover:text-plomb aria-[current=page]:underline aria-[current=page]:underline-offset-4"
-                aria-current={chemin.startsWith(href) ? 'page' : undefined}
-              >
-                {libelle}
-              </a>
-            </li>
-          ))
-        }
-        <li>
-          <a
-            href={rendezVous}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="libelle border border-encre bg-encre px-4 py-2.5 text-papier transition-colors hover:bg-papier hover:text-encre"
-          >
-            Prendre rendez-vous
-          </a>
-        </li>
-      </ul>
-    </nav>
-
     <button
       type="button"
       id="menu-bouton"
-      class="libelle -mr-2 px-2 py-2 text-encre md:hidden"
+      class="flex flex-col items-end gap-[6px] p-2"
       aria-expanded="false"
       aria-controls="menu-mobile"
     >
-      Menu
+      <span class="sr-only">Ouvrir le menu</span>
+      <span class="block h-px w-4 bg-current" aria-hidden="true"></span>
+      <span class="block h-px w-[22px] bg-current" aria-hidden="true"></span>
+      <span class="block h-px w-7 bg-current" aria-hidden="true"></span>
     </button>
   </div>
 
-  <!-- Menu plein écran, mobile uniquement. -->
+  <!-- Menu deux colonnes, a partir de 1024px -->
+  <nav class="hidden lg:block" aria-label="Navigation principale">
+    <div class="flex items-start justify-between">
+      <div
+        class:list={[
+          'menu-colonne flex flex-col gap-3',
+          superpose ? 'pt-14' : 'pt-8',
+        ]}
+      >
+        <a
+          href="/"
+          class="item flex items-center gap-3"
+          style="--l:88px"
+          aria-current={estActif('/') ? 'page' : undefined}
+        >
+          <span class="filet" aria-hidden="true" />
+          <span class="menu-texte">Accueil</span>
+        </a>
+
+        <a
+          href="/collections"
+          class="item flex items-center gap-3"
+          style="--l:120px"
+          aria-current={estActif('/collections') ? 'page' : undefined}
+        >
+          <span class="filet" aria-hidden="true" />
+          <span class="menu-texte">Collections</span>
+        </a>
+
+        <a
+          href="/contact"
+          class="item flex items-center gap-3"
+          style="--l:152px"
+          aria-current={estActif('/contact') ? 'page' : undefined}
+        >
+          <span class="filet" aria-hidden="true"></span>
+          <span class="menu-texte">Rencontrons-nous</span>
+        </a>
+      </div>
+
+      <div class:list={['menu-colonne', superpose ? 'pt-14' : 'pt-8']}>
+        <ul class="flex flex-col items-end gap-3">
+          {
+            PAGES_MENU.map(({ href, libelle, filet }) => (
+              <li>
+                <a
+                  href={href}
+                  class="item flex items-center justify-end gap-3"
+                  style={`--l:${filet}px`}
+                  aria-current={estActif(href) ? 'page' : undefined}
+                >
+                  <span class="menu-texte">{libelle}</span>
+                  <span class="filet" aria-hidden="true" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Panneau plein ecran, sous 1024px -->
   <div
     id="menu-mobile"
     hidden
     role="dialog"
     aria-modal="true"
     aria-label="Navigation"
-    class="fixed inset-0 z-40 flex flex-col bg-papier md:hidden"
+    class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-encre text-papier lg:hidden"
   >
-    <div class="flex items-center justify-between border-b border-encre px-5 py-4">
-      <span class="libelle text-encre">Navigation</span>
-      <button type="button" id="menu-fermer" class="libelle -mr-2 px-2 py-2 text-encre">
-        Fermer
-      </button>
+    <div class="flex items-center justify-end px-5 py-4">
+      <button type="button" id="menu-fermer" class="menu-texte p-2">Fermer</button>
     </div>
 
-    <nav class="flex-1 overflow-y-auto px-5 py-10" aria-label="Navigation mobile">
-      <ul class="flex flex-col gap-7">
+    <nav class="flex-1 pb-16" aria-label="Navigation mobile">
+      <ul class="flex flex-col gap-3 px-5">
+        <li>
+          <a href="/" class="item flex items-center gap-3 py-1" style="--l:88px">
+            <span class="filet" aria-hidden="true"></span>
+            <span class="menu-texte">Accueil</span>
+          </a>
+        </li>
+        <li>
+          <a href="/collections" class="item flex items-center gap-3 py-1" style="--l:120px">
+            <span class="filet" aria-hidden="true"></span>
+            <span class="menu-texte">Collections</span>
+          </a>
+        </li>
+        <li>
+          <a href="/contact" class="item flex items-center gap-3 py-1" style="--l:152px">
+            <span class="filet" aria-hidden="true"></span>
+            <span class="menu-texte">Rencontrons-nous</span>
+          </a>
+        </li>
+      </ul>
+
+      <ul class="mt-16 flex flex-col gap-3 px-5">
         {
-          LIENS.map(({ href, libelle }) => (
+          PAGES_MENU.map(({ href, libelle, filet }) => (
             <li>
               <a
                 href={href}
-                class="font-titre text-intertitre text-encre"
-                aria-current={chemin.startsWith(href) ? 'page' : undefined}
+                class="item flex items-center gap-3 py-1"
+                style={`--l:${filet}px`}
               >
-                {libelle}
+                <span class="filet" aria-hidden="true" />
+                <span class="menu-texte">{libelle}</span>
               </a>
             </li>
           ))
         }
       </ul>
     </nav>
-
-    <div class="border-t border-encre px-5 py-5">
-      <a
-        href={rendezVous}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="libelle block bg-encre px-4 py-4 text-center text-papier"
-      >
-        Prendre rendez-vous
-      </a>
-    </div>
   </div>
 </header>
+
+<style>
+  /* Les colonnes touchent les bords : aucun padding horizontal commun.
+     Le padding-top varie selon superpose (voir classes Tailwind sur le composant). */
+  .menu-colonne {
+    padding-bottom: 28px;
+  }
+
+  .menu-texte {
+    font-size: var(--text-libelle);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    /* La couleur suit le contexte : blanc sur le hero, encre sur fond blanc. */
+    color: currentColor;
+  }
+
+  /* Filet horizontal : part du bord de la fenetre et s'arrete a 12px du texte. */
+  .filet {
+    display: block;
+    height: 1px;
+    width: var(--l);
+    flex: none;
+    background: currentColor;
+    transition: width 200ms ease;
+  }
+
+  .item:hover .filet {
+    width: calc(var(--l) + 8px);
+  }
+</style>
 
 <script>
   const bouton = document.getElementById('menu-bouton')
@@ -168,8 +261,8 @@ const rendezVous = lienRendezVous()
       }
     })
 
-    // Le menu plein ecran n'a plus de raison d'etre en vue bureau.
-    window.matchMedia('(min-width: 768px)').addEventListener('change', (vue) => {
+    // Le panneau n'a plus lieu d'etre des que le menu deux colonnes s'affiche.
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (vue) => {
       if (vue.matches && !menu.hidden) refermer()
     })
   }

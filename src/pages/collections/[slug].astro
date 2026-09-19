@@ -10,6 +10,30 @@ if (!collection) {
   return Astro.rewrite('/404')
 }
 
+const FILTRES = [
+  { valeur: 'bracelets', libelle: 'Bracelets' },
+  { valeur: 'autres', libelle: 'Autres' },
+  { valeur: 'bagues', libelle: 'Bagues' },
+  { valeur: 'colliers', libelle: 'Colliers' },
+]
+
+const typeActif = Astro.url.searchParams.get('type')
+
+const EDITORIALES = [
+  {
+    src: '/assets/hero-secondaire.jpg',
+    alt: "Main portant cinq bagues en argent aux formes anguleuses, reliées par une chaîne, devant un visage.",
+    width: 1600,
+    height: 2400,
+  },
+  {
+    src: '/assets/campagne-chaines.jpg',
+    alt: "Pendentif ciselé en forme de cœur, suspendu à plusieurs chaînes en argent portées à même la peau, en noir et blanc.",
+    width: 1600,
+    height: 2400,
+  },
+]
+
 // Le CMS n'est pas encore configuré : tant que les identifiants Sanity
 // manquent, la page affiche la collection sans ses pièces au lieu de tomber.
 let pieces: Piece[] = []
@@ -33,7 +57,7 @@ try {
   description={`La collection ${collection.nom} de Lucas Hage, joaillier à Genève.`}
   image={collection.couverture}
 >
-  <header class="px-5 pt-16 pb-10 md:px-8 md:pt-24 md:pb-16">
+  <header class="px-5 pt-10 pb-24 md:px-8 md:pt-14 md:pb-32">
     <p class="libelle">
       <a href="/collections" class="underline-offset-4 hover:underline">Collections</a>
     </p>
@@ -43,23 +67,43 @@ try {
     <p class="mt-6 text-courant">{collection.introduction}</p>
   </header>
 
-  <div class="bg-encre">
-    <img
-      src={collection.couverture}
-      alt={collection.couvertureAlt}
-      width={collection.couvertureLargeur}
-      height={collection.couvertureHauteur}
-      loading="lazy"
-      class="aspect-[16/9] w-full object-cover"
-    />
+  <!-- 1. Photo produit unique, centree, sur fond noir. -->
+  <div class="flex justify-center px-5 md:px-0">
+    <div class="w-full bg-encre md:w-[58vw]">
+      <img
+        src={collection.couverture}
+        alt={collection.couvertureAlt}
+        width={collection.couvertureLargeur}
+        height={collection.couvertureHauteur}
+        loading="lazy"
+        class="aspect-[3/2] w-full object-cover"
+      />
+    </div>
   </div>
 
-  <section class="px-5 py-section-mobile md:px-8 md:py-section">
-    <h2 class="libelle">Les pièces</h2>
+  <!-- 2. Respiration. 3. Filtres. 4. Grille. -->
+  <section class="px-5 pt-28 md:px-8 md:pt-[180px]">
+    <h2 class="sr-only">Les pièces</h2>
+
+    <ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+      {
+        FILTRES.map((filtre) => (
+          <li>
+            <a
+              href={`/collections/${collection.slug}?type=${filtre.valeur}`}
+              class="filtre"
+              aria-current={typeActif === filtre.valeur ? 'true' : undefined}
+            >
+              {filtre.libelle}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
 
     {
       pieces.length > 0 && urlFor ? (
-        <ul class="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8">
+        <ul class="mt-20 grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
           {pieces.map((piece) => (
             <li>
               <div class="bg-encre">
@@ -68,20 +112,19 @@ try {
                     src={urlFor(piece.images[0], 800)}
                     alt={piece.images[0].alt}
                     width="800"
-                    height="1000"
+                    height="800"
                     loading="lazy"
-                    class="aspect-[4/5] w-full object-cover"
+                    class="aspect-square w-full object-cover"
                   />
                 )}
               </div>
-              <h3 class="mt-4 font-titre text-intertitre leading-tight">
-                {piece.nom}
-              </h3>
+              <h3 class="piece-nom">{piece.nom}</h3>
+              <p class="piece-prix">Prix sur demande</p>
             </li>
           ))}
         </ul>
       ) : (
-        <p class="mt-5 text-courant">
+        <p class="mt-20 text-center text-courant">
           {cmsIndisponible
             ? 'Les pièces de cette collection seront bientôt en ligne.'
             : "Aucune pièce n'est actuellement présentée dans cette collection."}
@@ -89,4 +132,58 @@ try {
       )
     }
   </section>
+
+  <!-- 5. Respiration. 6. Deux images editoriales en portrait. -->
+  <section class="px-5 pt-28 pb-28 md:px-8 md:pt-[180px] md:pb-[180px]">
+    <div
+      class="flex flex-col items-center gap-24 md:flex-row md:items-start md:justify-center md:gap-[12vw]"
+    >
+      {
+        EDITORIALES.map((image) => (
+          <div class="w-full max-w-sm bg-encre md:w-[30vw] md:max-w-none">
+            <img
+              src={image.src}
+              alt={image.alt}
+              width={image.width}
+              height={image.height}
+              loading="lazy"
+              class="aspect-[3/4] w-full object-cover"
+            />
+          </div>
+        ))
+      }
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .filtre {
+    font-size: var(--text-libelle);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-encre);
+    text-underline-offset: 4px;
+  }
+
+  .filtre:hover,
+  .filtre[aria-current='true'] {
+    text-decoration: underline;
+  }
+
+  .piece-nom {
+    margin-top: 1rem;
+    font-size: var(--text-libelle);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-encre);
+  }
+
+  .piece-prix {
+    margin-top: 0.375rem;
+    font-size: var(--text-courant);
+    text-transform: uppercase;
+    color: var(--color-plomb);
+  }
+</style>

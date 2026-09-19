@@ -1,17 +1,19 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import { COLLECTIONS } from '@/data/collections'
-import { lienRendezVous } from '@/lib/whatsapp'
 
 const VIDEO_HERO = '/assets/hero.mp4'
 const POSTER_HERO = '/assets/hero-poster.jpg'
-const PORTRAIT = '/assets/portrait-lucas.jpg'
-const rendezVous = lienRendezVous()
+
+// Deux bandeaux pleine largeur encadrent la section blanche a deux colonnes.
+const [bandeauHaut, colonneGauche, colonneDroite, bandeauBas] = COLLECTIONS
+const enColonnes = [colonneGauche, colonneDroite].filter(Boolean)
 ---
 
 <Layout
   title="Lucas Hage — Créateur et artisan suisse de bijoux sur mesure"
   description="Atelier de joaillerie à Genève, quartier des Grottes. Chevalières, pièces sur mesure et créations uniques, façonnées à la main."
+  superpose
 >
   <section class="hero relative h-[100svh] w-full overflow-hidden bg-encre">
     <video
@@ -28,9 +30,6 @@ const rendezVous = lienRendezVous()
       <source src={VIDEO_HERO} type="video/mp4" />
     </video>
 
-    <!-- Voile sombre : garantit la lisibilite du titre quelle que soit l'image. -->
-    <div class="absolute inset-0 bg-encre/35" aria-hidden="true"></div>
-
     <img
       class="hero-repli absolute inset-0 h-full w-full object-cover"
       src={POSTER_HERO}
@@ -46,51 +45,53 @@ const rendezVous = lienRendezVous()
       <p class="mt-5 text-courant">
         Créateur et artisan suisse de bijoux sur mesure
       </p>
-
-      <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-        <a
-          href="/collections"
-          class="libelle border border-papier px-6 py-4 text-papier transition-colors hover:bg-papier hover:text-encre"
-        >
-          Voir les collections
-        </a>
-        <a
-          href={rendezVous}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="libelle border border-papier bg-papier px-6 py-4 text-encre transition-colors hover:bg-transparent hover:text-papier"
-        >
-          Prendre rendez-vous
-        </a>
-      </div>
     </div>
   </section>
 
-  <section class="px-5 py-section-mobile md:px-8 md:py-section">
-    <div class="flex items-baseline justify-between gap-6">
-      <h2 class="libelle">Collections</h2>
-      <a href="/collections" class="libelle underline-offset-4 hover:underline">
-        Tout voir
-      </a>
-    </div>
-    <div class="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-4 md:gap-x-8">
+  {
+    bandeauHaut && (
+      <section class="relative h-[70vh] w-full overflow-hidden bg-encre">
+        <img
+          src={bandeauHaut.couverture}
+          alt={bandeauHaut.couvertureAlt}
+          width={bandeauHaut.couvertureLargeur}
+          height={bandeauHaut.couvertureHauteur}
+          loading="lazy"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="bandeau-legende absolute inset-x-0 bottom-[12%] px-5 text-center">
+          <p class="bandeau-nom">{bandeauHaut.nom}</p>
+          <a href={`/collections/${bandeauHaut.slug}`} class="lien-decouvrir">
+            Découvrir
+          </a>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="px-5 py-40 md:px-8 md:py-[16rem]">
+    <div
+      class="flex flex-col items-center gap-24 md:flex-row md:items-start md:justify-center md:gap-[12vw]"
+    >
       {
-        COLLECTIONS.map((collection) => (
-          <article>
-            <a href={`/collections/${collection.slug}`} class="group block">
-              <div class="bg-encre">
-                <img
-                  src={collection.couverture}
-                  alt={collection.couvertureAlt}
-                  width={collection.couvertureLargeur}
-                  height={collection.couvertureHauteur}
-                  loading="lazy"
-                  class="aspect-[3/4] w-full object-cover"
-                />
-              </div>
-              <h3 class="mt-4 font-titre text-intertitre leading-tight underline-offset-4 group-hover:underline">
-                {collection.nom}
-              </h3>
+        enColonnes.map((collection) => (
+          <article class="w-full max-w-sm md:w-[30vw] md:max-w-none">
+            <div class="bg-encre">
+              <img
+                src={collection.couverture}
+                alt={collection.couvertureAlt}
+                width={collection.couvertureLargeur}
+                height={collection.couvertureHauteur}
+                loading="lazy"
+                class="aspect-[3/4] w-full object-cover"
+              />
+            </div>
+            <h2 class="colonne-nom">{collection.nom}</h2>
+            <a
+              href={`/collections/${collection.slug}`}
+              class="lien-decouvrir lien-decouvrir-encre"
+            >
+              Découvrir
             </a>
           </article>
         ))
@@ -98,30 +99,26 @@ const rendezVous = lienRendezVous()
     </div>
   </section>
 
-  <section
-    class="grid items-center gap-10 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
-  >
-    <img
-      src={PORTRAIT}
-      alt="Lucas Hage, loupe de joaillier relevée sur le front, travaille une pièce à sa table de dessin."
-      width="2400"
-      height="1600"
-      loading="lazy"
-      class="w-full"
-    />
-
-    <div>
-      <p class="libelle">Qui suis-je</p>
-      <h2 class="mt-4 font-titre text-titre leading-tight">À RÉDIGER</h2>
-      <p class="mt-6 text-courant">À RÉDIGER</p>
-      <a
-        href="/qui-suis-je"
-        class="libelle mt-8 inline-block border border-encre px-5 py-3 text-encre hover:bg-encre hover:text-papier"
-      >
-        Découvrir l'atelier
-      </a>
-    </div>
-  </section>
+  {
+    bandeauBas && (
+      <section class="relative h-[70vh] w-full overflow-hidden bg-encre">
+        <img
+          src={bandeauBas.couverture}
+          alt={bandeauBas.couvertureAlt}
+          width={bandeauBas.couvertureLargeur}
+          height={bandeauBas.couvertureHauteur}
+          loading="lazy"
+          class="absolute inset-0 h-full w-full object-cover"
+        />
+        <div class="bandeau-legende absolute inset-x-0 bottom-[12%] px-5 text-center">
+          <p class="bandeau-nom">{bandeauBas.nom}</p>
+          <a href={`/collections/${bandeauBas.slug}`} class="lien-decouvrir">
+            Découvrir
+          </a>
+        </div>
+      </section>
+    )
+  }
 </Layout>
 
 <style>
@@ -137,6 +134,55 @@ const rendezVous = lienRendezVous()
     .hero-repli {
       display: block;
     }
+  }
+
+  /* Nom de collection en capitales blanches, pose sur le bandeau. */
+  .bandeau-legende {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .bandeau-nom {
+    margin: 0;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    font-size: var(--text-intertitre);
+    color: var(--color-papier);
+  }
+
+  .bandeau-legende .lien-decouvrir {
+    margin-top: 0;
+  }
+
+  .colonne-nom {
+    margin-top: 1.5rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    font-size: var(--text-libelle);
+    color: var(--color-encre);
+  }
+
+  .lien-decouvrir {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: var(--text-libelle);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    color: var(--color-papier);
+  }
+
+  .lien-decouvrir-encre {
+    display: block;
+    text-align: center;
+    color: var(--color-encre);
   }
 </style>
 
