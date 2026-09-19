@@ -1,0 +1,24 @@
+# Dépendances et build
+node_modules/
+dist/
+.astro/
+sanity/dist/
+sanity/node_modules/
+
+# Environnement
+.env
+.env.local
+.env.production
+
+# Sources lourdes : jamais versionnées
+*.CR2
+*.cr2
+*.psd
+*.tiff
+*.PNG
+public/assets/*.mp4
+!public/assets/hero.mp4
+!public/assets/qui-suis-je.mp4
+
+# Système
+.DS_Store

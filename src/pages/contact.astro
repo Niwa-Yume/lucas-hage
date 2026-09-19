@@ -1,0 +1,71 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { lienSurMesure } from '@/lib/whatsapp'
+
+const INSTAGRAM = 'https://www.instagram.com/lucas.hage.jewellery/'
+const EMAIL = 'contact@lucashage.com'
+const surMesure = lienSurMesure()
+---
+
+<Layout
+  title="Contact — Lucas Hage"
+  description="Atelier de joaillerie à Genève, quartier des Grottes. Prise de rendez-vous et demandes sur mesure par WhatsApp."
+>
+  <header class="px-5 pt-16 pb-10 md:px-8 md:pt-24 md:pb-16">
+    <p class="libelle">Contact</p>
+    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
+      Parlons de votre pièce
+    </h1>
+  </header>
+
+  <section
+    class="grid gap-12 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
+  >
+    <div>
+      <h2 class="libelle">L'atelier</h2>
+      <address class="mt-5 text-courant not-italic">
+        Quartier des Grottes<br />
+        1201 Genève<br />
+        Suisse
+      </address>
+      <p class="mt-4 text-courant">
+        L'atelier reçoit sur rendez-vous. Écrivez-moi pour convenir d'un moment.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="libelle">Écrire</h2>
+      <p class="mt-5 text-courant">
+        Une idée, une pierre à remonter, une pièce à imaginer : le plus simple
+        est de m'envoyer un message.
+      </p>
+
+      <a
+        href={surMesure}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="libelle mt-7 inline-block bg-encre px-6 py-4 text-papier hover:bg-papier hover:text-encre border border-encre"
+      >
+        Écrire sur WhatsApp
+      </a>
+
+      <ul class="mt-8 flex flex-col gap-2">
+        <li>
+          <a href={`mailto:${EMAIL}`} class="text-courant underline underline-offset-4">
+            {EMAIL}
+          </a>
+        </li>
+        <li>
+          <a
+            href={INSTAGRAM}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-courant underline underline-offset-4"
+          >
+            Instagram — @lucas.hage.jewellery
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</Layout>

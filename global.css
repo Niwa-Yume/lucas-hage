@@ -1,0 +1,82 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   TOKENS — proposition de départ lue sur la maquette Figma.
+   À CONFIRMER : remplace les valeurs par celles de ton fichier Figma
+   (Inspect > Variables) avant de coder le moindre composant.
+   --------------------------------------------------------------------------- */
+
+@theme {
+  /* Couleurs ------------------------------------------------------------- */
+  --color-encre: #000000;          /* texte, traits, fonds de photo produit */
+  --color-papier: #ffffff;         /* fond principal */
+  --color-atelier: #f2f2f2;        /* fond de section alterné, champs */
+  --color-plomb: #767676;          /* texte secondaire, libellés */
+  --color-patine: #2a6b7c;         /* accent, repris de la photo de campagne */
+
+  /* Typographie ---------------------------------------------------------- */
+  /* À CONFIRMER : nom exact des familles utilisées dans la Figma */
+  --font-titre: 'Neue Haas Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-courant: 'Neue Haas Grotesk', 'Helvetica Neue', Arial, sans-serif;
+
+  --text-libelle: 0.6875rem;       /* libellés en capitales */
+  --text-courant: 1rem;
+  --text-intertitre: 1.5rem;
+  --text-titre: 2.5rem;
+  --text-hero: clamp(2.5rem, 7vw, 5.5rem);
+
+  /* Rythme --------------------------------------------------------------- */
+  --spacing-section: 6rem;
+  --spacing-section-mobile: 3.5rem;
+
+  /* Angles vifs partout : la maquette n'a aucun arrondi */
+  --radius-none: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   BASE
+   --------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    background: var(--color-papier);
+    color: var(--color-encre);
+    font-family: var(--font-courant);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Le texte courant ne dépasse jamais ~70 caractères */
+  p {
+    max-width: 64ch;
+  }
+
+  /* Focus clavier visible, sans l'imposer à la souris */
+  :focus-visible {
+    outline: 2px solid var(--color-encre);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   UTILITAIRES
+   --------------------------------------------------------------------------- */
+
+@layer components {
+  /* Libellé d'interface : capitales interlettrées.
+     Choix issu de la maquette (FORMULAIRE DE CONTACT, MATIÈRE, TAILLE). */
+  .libelle {
+    font-size: var(--text-libelle);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-plomb);
+  }
+}

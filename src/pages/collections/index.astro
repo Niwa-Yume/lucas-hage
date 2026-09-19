@@ -1,0 +1,44 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { COLLECTIONS } from '@/data/collections'
+---
+
+<Layout
+  title="Collections — Lucas Hage"
+  description="Chevalières, New Chivalry, Memento Mori et Bestiaire : les quatre collections de l'atelier genevois de Lucas Hage."
+>
+  <header class="px-5 pt-16 pb-10 md:px-8 md:pt-24 md:pb-16">
+    <p class="libelle">Collections</p>
+    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
+      Quatre familles de pièces
+    </h1>
+    <p class="mt-6 text-courant">À RÉDIGER</p>
+  </header>
+
+  <section
+    class="grid gap-x-5 gap-y-12 px-5 pb-section-mobile md:grid-cols-2 md:gap-x-8 md:gap-y-16 md:px-8 md:pb-section"
+  >
+    {
+      COLLECTIONS.map((collection) => (
+        <article>
+          <a href={`/collections/${collection.slug}`} class="group block">
+            <div class="bg-encre">
+              <img
+                src={collection.couverture}
+                alt={collection.couvertureAlt}
+                width={collection.couvertureLargeur}
+                height={collection.couvertureHauteur}
+                loading="lazy"
+                class="aspect-[3/4] w-full object-cover"
+              />
+            </div>
+            <h2 class="mt-5 font-titre text-intertitre leading-tight underline-offset-4 group-hover:underline">
+              {collection.nom}
+            </h2>
+          </a>
+          <p class="libelle mt-2">{collection.accroche}</p>
+        </article>
+      ))
+    }
+  </section>
+</Layout>

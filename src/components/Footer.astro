@@ -1,0 +1,137 @@
+---
+const INSTAGRAM = 'https://www.instagram.com/lucas.hage.jewellery/'
+const EMAIL = 'contact@lucashage.com'
+const annee = new Date().getFullYear()
+---
+
+<footer class="border-t border-encre bg-papier px-5 py-section-mobile md:px-8 md:py-section">
+  <div class="grid gap-12 md:grid-cols-3 md:gap-8">
+    <div>
+      <h2 class="libelle">Atelier</h2>
+      <p class="mt-4 text-courant">
+        Genève, quartier des Grottes.<br />
+        Sur rendez-vous uniquement.
+      </p>
+    </div>
+
+    <div>
+      <h2 class="libelle">Contact</h2>
+      <ul class="mt-4 flex flex-col gap-2">
+        <li>
+          <a href={`mailto:${EMAIL}`} class="text-courant underline underline-offset-4">
+            {EMAIL}
+          </a>
+        </li>
+        <li>
+          <a
+            href={INSTAGRAM}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-courant underline underline-offset-4"
+          >
+            Instagram
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="libelle" id="newsletter-titre">Newsletter</h2>
+      <p class="mt-4 text-courant">
+        Les nouvelles pièces et les rendez-vous de l'atelier, quelques fois par an.
+      </p>
+
+      <form
+        id="newsletter"
+        class="mt-5 flex flex-col gap-3 sm:flex-row"
+        aria-labelledby="newsletter-titre"
+        novalidate
+      >
+        <label for="newsletter-email" class="sr-only">Adresse email</label>
+        <input
+          type="email"
+          id="newsletter-email"
+          name="email"
+          required
+          autocomplete="email"
+          placeholder="votre@email.ch"
+          class="w-full border border-encre bg-papier px-3 py-3 text-courant placeholder:text-plomb sm:max-w-64"
+        />
+        <button
+          type="submit"
+          class="libelle border border-encre bg-encre px-5 py-3 text-papier hover:bg-papier hover:text-encre"
+        >
+          S'inscrire
+        </button>
+      </form>
+
+      <p
+        id="newsletter-message"
+        class="mt-3 text-courant"
+        role="status"
+        aria-live="polite"
+      >
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="mt-12 flex flex-col gap-3 border-t border-encre pt-6 md:flex-row md:items-center md:justify-between"
+  >
+    <p class="libelle">© {annee} Lucas Hage</p>
+    <ul class="flex flex-wrap gap-6">
+      <li><a href="/mentions-legales" class="libelle">Mentions légales</a></li>
+      <li>
+        <a href="/politique-confidentialite" class="libelle">
+          Politique de confidentialité
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  const formulaire = document.getElementById('newsletter') as HTMLFormElement | null
+  const champ = document.getElementById('newsletter-email') as HTMLInputElement | null
+  const message = document.getElementById('newsletter-message')
+
+  if (formulaire && champ && message) {
+    const bouton = formulaire.querySelector('button')
+
+    formulaire.addEventListener('submit', async (evenement) => {
+      evenement.preventDefault()
+
+      const email = champ.value.trim()
+      if (!email || !champ.checkValidity()) {
+        message.textContent = 'Merci de saisir une adresse email valide.'
+        champ.focus()
+        return
+      }
+
+      if (bouton) bouton.disabled = true
+      message.textContent = 'Envoi en cours…'
+
+      try {
+        const reponse = await fetch('/api/newsletter', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ email }),
+        })
+        const donnees = await reponse.json().catch(() => null)
+
+        if (reponse.ok) {
+          message.textContent =
+            'Merci. Un email de confirmation vient de vous être envoyé.'
+          formulaire.reset()
+        } else {
+          message.textContent =
+            donnees?.erreur ?? "L'inscription n'a pas abouti. Réessayez plus tard."
+        }
+      } catch {
+        message.textContent = 'Connexion impossible. Réessayez plus tard.'
+      } finally {
+        if (bouton) bouton.disabled = false
+      }
+    })
+  }
+</script>

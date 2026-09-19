@@ -1,0 +1,92 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { collectionParSlug } from '@/data/collections'
+import type { ImagePiece, Piece } from '@/lib/types'
+
+const { slug } = Astro.params
+const collection = slug ? collectionParSlug(slug) : undefined
+
+if (!collection) {
+  return new Response('Collection introuvable', { status: 404 })
+}
+
+// Le CMS n'est pas encore configuré : tant que les identifiants Sanity
+// manquent, la page affiche la collection sans ses pièces au lieu de tomber.
+let pieces: Piece[] = []
+let cmsIndisponible = false
+let urlFor: ((image: ImagePiece, largeur: number) => string) | null = null
+
+try {
+  const [{ piecesDeCollection }, sanite] = await Promise.all([
+    import('@/lib/queries'),
+    import('@/lib/sanity'),
+  ])
+  urlFor = sanite.urlFor
+  pieces = await piecesDeCollection(collection.slug)
+} catch {
+  cmsIndisponible = true
+}
+---
+
+<Layout
+  title={`${collection.nom} — Lucas Hage`}
+  description={`La collection ${collection.nom} de Lucas Hage, joaillier à Genève.`}
+  image={collection.couverture}
+>
+  <header class="px-5 pt-16 pb-10 md:px-8 md:pt-24 md:pb-16">
+    <p class="libelle">
+      <a href="/collections" class="underline-offset-4 hover:underline">Collections</a>
+    </p>
+    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
+      {collection.nom}
+    </h1>
+    <p class="mt-6 text-courant">{collection.introduction}</p>
+  </header>
+
+  <div class="bg-encre">
+    <img
+      src={collection.couverture}
+      alt={collection.couvertureAlt}
+      width={collection.couvertureLargeur}
+      height={collection.couvertureHauteur}
+      loading="lazy"
+      class="aspect-[16/9] w-full object-cover"
+    />
+  </div>
+
+  <section class="px-5 py-section-mobile md:px-8 md:py-section">
+    <h2 class="libelle">Les pièces</h2>
+
+    {
+      pieces.length > 0 && urlFor ? (
+        <ul class="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8">
+          {pieces.map((piece) => (
+            <li>
+              <div class="bg-encre">
+                {piece.images?.[0] && (
+                  <img
+                    src={urlFor(piece.images[0], 800)}
+                    alt={piece.images[0].alt}
+                    width="800"
+                    height="1000"
+                    loading="lazy"
+                    class="aspect-[4/5] w-full object-cover"
+                  />
+                )}
+              </div>
+              <h3 class="mt-4 font-titre text-intertitre leading-tight">
+                {piece.nom}
+              </h3>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="mt-5 text-courant">
+          {cmsIndisponible
+            ? 'Les pièces de cette collection seront bientôt en ligne.'
+            : "Aucune pièce n'est actuellement présentée dans cette collection."}
+        </p>
+      )
+    }
+  </section>
+</Layout>

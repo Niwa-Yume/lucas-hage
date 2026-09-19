@@ -1,0 +1,76 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+const EMAIL = 'contact@lucashage.com'
+---
+
+<Layout
+  title="Politique de confidentialité — Lucas Hage"
+  description="Quelles données le site collecte, pourquoi, et comment les faire supprimer. Aucun outil de mesure d'audience."
+>
+  <header class="px-5 pt-16 pb-10 md:px-8 md:pt-24 md:pb-16">
+    <p class="libelle">Informations légales</p>
+    <h1 class="mt-4 font-titre text-titre leading-tight">
+      Politique de confidentialité
+    </h1>
+  </header>
+
+  <div class="px-5 pb-section-mobile md:px-8 md:pb-section">
+    <section class="mb-10">
+      <h2 class="libelle">Responsable du traitement</h2>
+      <p class="mt-4 text-courant">À RÉDIGER</p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="libelle">Données collectées</h2>
+      <p class="mt-4 text-courant">
+        La seule donnée personnelle collectée par ce site est l'adresse email
+        que vous saisissez volontairement dans le formulaire d'inscription à la
+        newsletter. Aucune autre donnée n'est demandée ni enregistrée.
+      </p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="libelle">Newsletter et sous-traitant</h2>
+      <p class="mt-4 text-courant">
+        Les inscriptions à la newsletter sont gérées par Brevo, qui héberge la
+        liste de diffusion et envoie les messages. L'inscription se fait en
+        double opt-in : votre adresse n'est ajoutée à la liste qu'après avoir
+        cliqué sur le lien de confirmation reçu par email.
+      </p>
+      <p class="mt-4 text-courant">
+        Votre adresse sert uniquement à l'envoi de la newsletter de l'atelier.
+        Elle n'est ni vendue, ni cédée, ni utilisée à d'autres fins.
+      </p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="libelle">Absence de mesure d'audience</h2>
+      <p class="mt-4 text-courant">
+        Ce site n'utilise aucun outil d'analyse d'audience, aucun pixel de
+        suivi et aucun script publicitaire. Il ne dépose pas de cookie et
+        n'enregistre rien dans le stockage local de votre navigateur.
+      </p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="libelle">Durée de conservation</h2>
+      <p class="mt-4 text-courant">À RÉDIGER</p>
+    </section>
+
+    <section class="mb-10">
+      <h2 class="libelle">Vos droits</h2>
+      <p class="mt-4 text-courant">
+        Vous pouvez à tout moment vous désinscrire via le lien présent en bas de
+        chaque newsletter, ou demander l'accès, la rectification et la
+        suppression de votre adresse en écrivant à
+        <a href={`mailto:${EMAIL}`} class="underline underline-offset-4">{EMAIL}</a>.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="libelle">Hébergement et contenus externes</h2>
+      <p class="mt-4 text-courant">À RÉDIGER</p>
+    </section>
+  </div>
+</Layout>

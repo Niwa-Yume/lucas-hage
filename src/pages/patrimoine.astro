@@ -1,0 +1,84 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import type { ImagePiece, Piece } from '@/lib/types'
+
+// Même repli que les pages de collection tant que Sanity n'est pas configuré.
+let pieces: Piece[] = []
+let cmsIndisponible = false
+let urlFor: ((image: ImagePiece, largeur: number) => string) | null = null
+
+try {
+  const [{ piecesPatrimoine }, sanite] = await Promise.all([
+    import('@/lib/queries'),
+    import('@/lib/sanity'),
+  ])
+  urlFor = sanite.urlFor
+  pieces = await piecesPatrimoine()
+} catch {
+  cmsIndisponible = true
+}
+---
+
+<Layout
+  title="Patrimoine — Lucas Hage"
+  description="Les pièces sorties des collections, conservées comme mémoire de l'atelier."
+  image="/assets/image00014.PNG"
+>
+  <header class="px-5 pt-16 pb-10 md:px-8 md:pt-24 md:pb-16">
+    <p class="libelle">Patrimoine</p>
+    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
+      La mémoire de l'atelier
+    </h1>
+    <p class="mt-6 text-courant">
+      Les pièces réunies ici ne sont plus proposées. Elles restent visibles
+      comme trace du travail mené à l'atelier.
+    </p>
+  </header>
+
+  <div class="bg-encre">
+    <img
+      src="/assets/image00014.PNG"
+      alt="L'établi de l'atelier : limes, bouterolles, boule de sertisseur et flacons de pierres sur les étagères."
+      width="2652"
+      height="3201"
+      loading="lazy"
+      class="aspect-[16/9] w-full object-cover"
+    />
+  </div>
+
+  <section class="px-5 py-section-mobile md:px-8 md:py-section">
+    <h2 class="libelle">Les pièces</h2>
+
+    {
+      pieces.length > 0 && urlFor ? (
+        <ul class="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8">
+          {pieces.map((piece) => (
+            <li>
+              <div class="bg-encre">
+                {piece.images?.[0] && (
+                  <img
+                    src={urlFor(piece.images[0], 800)}
+                    alt={piece.images[0].alt}
+                    width="800"
+                    height="1000"
+                    loading="lazy"
+                    class="aspect-[4/5] w-full object-cover"
+                  />
+                )}
+              </div>
+              <h3 class="mt-4 font-titre text-intertitre leading-tight">
+                {piece.nom}
+              </h3>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p class="mt-5 text-courant">
+          {cmsIndisponible
+            ? 'Les pièces du patrimoine seront bientôt en ligne.'
+            : "Aucune pièce n'est encore versée au patrimoine."}
+        </p>
+      )
+    }
+  </section>
+</Layout>

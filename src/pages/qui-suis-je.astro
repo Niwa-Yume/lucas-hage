@@ -1,0 +1,63 @@
+---
+import Layout from '@/layouts/Layout.astro'
+
+const ETABLI = '/assets/image00014.PNG'
+const CROQUIS = '/assets/image00012.PNG'
+---
+
+<Layout
+  title="Qui suis-je — Lucas Hage"
+  description="Lucas Hage, créateur et artisan joaillier suisse. Atelier à Genève, quartier des Grottes."
+>
+  <header class="px-5 pt-16 pb-10 md:px-8 md:pt-24 md:pb-16">
+    <p class="libelle">Qui suis-je</p>
+    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
+      À RÉDIGER
+    </h1>
+  </header>
+
+  <section
+    class="grid items-center gap-10 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
+  >
+    <img
+      src={ETABLI}
+      alt="L'établi de l'atelier : limes, bouterolles, boule de sertisseur et flacons de pierres sur les étagères."
+      width="2652"
+      height="3201"
+      loading="lazy"
+      class="w-full"
+    />
+    <div>
+      <h2 class="libelle">Le parcours</h2>
+      <p class="mt-5 text-courant">À RÉDIGER</p>
+      <p class="mt-4 text-courant">À RÉDIGER</p>
+    </div>
+  </section>
+
+  <section
+    class="grid items-center gap-10 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
+  >
+    <div class="md:order-2">
+      <h2 class="libelle">Le geste</h2>
+      <p class="mt-5 text-courant">À RÉDIGER</p>
+      <p class="mt-4 text-courant">À RÉDIGER</p>
+    </div>
+    <img
+      src={CROQUIS}
+      alt="Lucas Hage dessine au fusain deux projets de bijoux sur un carnet, à l'atelier."
+      width="3456"
+      height="4320"
+      loading="lazy"
+      class="w-full md:order-1"
+    />
+  </section>
+
+  <section class="px-5 pb-section-mobile md:px-8 md:pb-section">
+    <h2 class="libelle">L'atelier</h2>
+    <p class="mt-5 text-courant">
+      L'atelier se trouve à Genève, dans le quartier des Grottes. Les rendez-vous
+      se prennent directement par WhatsApp.
+    </p>
+    <p class="mt-4 text-courant">À RÉDIGER</p>
+  </section>
+</Layout>

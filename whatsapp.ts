@@ -1,0 +1,52 @@
+import type { Matiere, Piece } from './types'
+
+const NUMERO = import.meta.env.PUBLIC_WHATSAPP_NUMBER
+
+const LIBELLES_MATIERE: Record<Matiere, string> = {
+  argent: 'Argent',
+  'or-jaune': 'Or jaune',
+  'or-blanc': 'Or blanc',
+  'or-rose': 'Or rose',
+  bronze: 'Bronze',
+}
+
+/** Construit un lien wa.me avec un message pre-rempli. */
+export function lienWhatsApp(message: string): string {
+  return `https://wa.me/${NUMERO}?text=${encodeURIComponent(message)}`
+}
+
+/** CTA persistant du header et du sticky mobile. */
+export function lienRendezVous(): string {
+  return lienWhatsApp(
+    'Bonjour, je souhaiterais prendre rendez-vous a l atelier.',
+  )
+}
+
+/**
+ * Sortie du configurateur.
+ * `taille` vaut null si le visiteur ne la connait pas : on l ecrit
+ * explicitement pour que Lucas sache qu il doit la faire mesurer.
+ */
+export function lienConfigurateur(
+  piece: Pick<Piece, 'nom' | 'collection'>,
+  matiere: Matiere,
+  taille: number | null,
+): string {
+  const lignes = [
+    'Bonjour, je vous contacte depuis votre site.',
+    '',
+    `Piece : ${piece.nom}`,
+    `Matiere : ${LIBELLES_MATIERE[matiere]}`,
+    taille === null
+      ? 'Taille : je ne connais pas ma taille'
+      : `Taille : ${taille}`,
+  ]
+  return lienWhatsApp(lignes.join('\n'))
+}
+
+/** Demande libre depuis la page contact, sans piece identifiee. */
+export function lienSurMesure(): string {
+  return lienWhatsApp(
+    'Bonjour, je souhaiterais discuter d une piece sur mesure.',
+  )
+}
