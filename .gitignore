@@ -17,6 +17,7 @@ sanity/node_modules/
 *.psd
 *.tiff
 *.PNG
+!public/assets/*.png
 public/assets/*.mp4
 !public/assets/hero.mp4
 !public/assets/qui-suis-je.mp4
