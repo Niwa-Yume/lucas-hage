@@ -26,11 +26,11 @@ export const COLLECTIONS: Collection[] = [
     nom: 'Chevalieres',
     accroche: 'A REDIGER',
     introduction: 'A REDIGER',
-    couverture: '/assets/hero-secondaire.jpg',
+    couverture: '/assets/cover-chevalieres.png',
     couvertureAlt:
-      'Main portant cinq bagues en argent aux formes anguleuses, reliees par une chaine, devant un visage.',
-    couvertureLargeur: 1600,
-    couvertureHauteur: 2400,
+      'Main portant des chevalieres en argent aux formes anguleuses, reliees par une chaine a un pendentif, devant un visage.',
+    couvertureLargeur: 1728,
+    couvertureHauteur: 1125,
   },
   {
     slug: 'new-chivalry',
