@@ -26,7 +26,7 @@ Pas de vente en ligne, pas de panier, pas de paiement, pas de compte utilisateur
 | Poste | Choix |
 |---|---|
 | Framework | Astro 5, `output: 'server'` |
-| Adaptateur | `@astrojs/node` mode `standalone` |
+| Adaptateur | `@astrojs/node` mode `standalone` ; `@astrojs/vercel` si `VERCEL` est défini |
 | Styles | Tailwind CSS v4 (config CSS-first dans `src/styles/global.css`) |
 | Interactif | React 19, uniquement en island `client:load` |
 | CMS | Sanity (dataset public, `useCdn: true`) |
