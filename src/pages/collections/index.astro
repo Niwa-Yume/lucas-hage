@@ -1,19 +1,23 @@
 ---
 import Layout from '@/layouts/Layout.astro'
+import PageHero from '@/components/PageHero.astro'
 import { COLLECTIONS } from '@/data/collections'
 ---
 
 <Layout
   title="Collections — Lucas Hage"
   description="Chevalières, New Chivalry, Memento Mori et Bestiaire : les quatre collections de l'atelier genevois de Lucas Hage."
+  menuSurImage
 >
-  <header class="px-5 pt-10 pb-10 md:px-8 md:pt-14 md:pb-16">
-    <p class="libelle">Collections</p>
-    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
-      Quatre familles de pièces
-    </h1>
-    <p class="mt-6 text-courant">À RÉDIGER</p>
-  </header>
+  <PageHero
+    titre="Quatre familles de pièces"
+    image="/assets/campagne-chaines.jpg"
+    alt="Pendentif ciselé en forme de cœur, suspendu à plusieurs chaînes en argent portées à même la peau, en noir et blanc."
+    largeur={1600}
+    hauteur={2400}
+  >
+    <p>À RÉDIGER</p>
+  </PageHero>
 
   <section
     class="grid gap-x-5 gap-y-12 px-5 pb-section-mobile md:grid-cols-2 md:gap-x-8 md:gap-y-16 md:px-8 md:pb-section"

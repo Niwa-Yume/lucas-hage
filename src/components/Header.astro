@@ -1,10 +1,15 @@
 ---
 interface Props {
-  /** Vrai sur l'accueil : le menu se superpose au hero au lieu d'occuper le flux. */
-  superpose?: boolean
+  /**
+   * Vrai sur une page qui s'ouvre sur une image plein cadre : le menu,
+   * fixe et sans fond, se pose dessus. Il est dessine en blanc avec
+   * mix-blend-mode: difference, donc blanc sur l'image et noir sur le
+   * fond blanc, sans bascule scriptee ni fond ajoute au scroll.
+   */
+  menuSurImage?: boolean
 }
 
-const { superpose = false } = Astro.props
+const { menuSurImage = false } = Astro.props
 
 const chemin = Astro.url.pathname
 
@@ -27,8 +32,11 @@ const estActif = (href: string) => chemin === href.split('?')[0]
 <header
   class:list={[
     'z-40 w-full',
-    superpose ? 'absolute inset-x-0 top-0 text-papier' : 'relative bg-papier text-encre',
+    menuSurImage
+      ? 'fixed inset-x-0 top-0 text-papier mix-blend-difference'
+      : 'relative bg-papier text-encre',
   ]}
+  data-menu-sur-image={menuSurImage ? '' : undefined}
 >
   <!-- Barre compacte sous 1024px -->
   <div class="flex items-center justify-between px-5 py-4 lg:hidden">
@@ -40,7 +48,7 @@ const estActif = (href: string) => chemin === href.split('?')[0]
         height="32"
         loading="eager"
         fetchpriority="high"
-        class="h-8 w-auto"
+        class:list={['h-8 w-auto', menuSurImage && 'brightness-0 invert']}
       />
     </a>
 
@@ -64,7 +72,7 @@ const estActif = (href: string) => chemin === href.split('?')[0]
       <div
         class:list={[
           'menu-colonne flex flex-col gap-3',
-          superpose ? 'pt-14' : 'pt-8',
+          menuSurImage ? 'pt-14' : 'pt-8',
         ]}
       >
         <a
@@ -98,7 +106,7 @@ const estActif = (href: string) => chemin === href.split('?')[0]
         </a>
       </div>
 
-      <div class:list={['menu-colonne', superpose ? 'pt-14' : 'pt-8']}>
+      <div class:list={['menu-colonne', menuSurImage ? 'pt-14' : 'pt-8']}>
         <ul class="flex flex-col items-end gap-3">
           {
             PAGES_MENU.map(({ href, libelle, filet }) => (
@@ -119,65 +127,66 @@ const estActif = (href: string) => chemin === href.split('?')[0]
       </div>
     </div>
   </nav>
-
-  <!-- Panneau plein ecran, sous 1024px -->
-  <div
-    id="menu-mobile"
-    hidden
-    role="dialog"
-    aria-modal="true"
-    aria-label="Navigation"
-    class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-encre text-papier lg:hidden"
-  >
-    <div class="flex items-center justify-end px-5 py-4">
-      <button type="button" id="menu-fermer" class="menu-texte p-2">Fermer</button>
-    </div>
-
-    <nav class="flex-1 pb-16" aria-label="Navigation mobile">
-      <ul class="flex flex-col gap-3 px-5">
-        <li>
-          <a href="/" class="item flex items-center gap-3 py-1" style="--l:88px">
-            <span class="filet" aria-hidden="true"></span>
-            <span class="menu-texte">Accueil</span>
-          </a>
-        </li>
-        <li>
-          <a href="/collections" class="item flex items-center gap-3 py-1" style="--l:120px">
-            <span class="filet" aria-hidden="true"></span>
-            <span class="menu-texte">Collections</span>
-          </a>
-        </li>
-        <li>
-          <a href="/contact" class="item flex items-center gap-3 py-1" style="--l:152px">
-            <span class="filet" aria-hidden="true"></span>
-            <span class="menu-texte">Rencontrons-nous</span>
-          </a>
-        </li>
-      </ul>
-
-      <ul class="mt-16 flex flex-col gap-3 px-5">
-        {
-          PAGES_MENU.map(({ href, libelle, filet }) => (
-            <li>
-              <a
-                href={href}
-                class="item flex items-center gap-3 py-1"
-                style={`--l:${filet}px`}
-              >
-                <span class="filet" aria-hidden="true" />
-                <span class="menu-texte">{libelle}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-  </div>
 </header>
+
+<!-- Panneau plein ecran, sous 1024px. Hors du <header> pour echapper
+     au mix-blend-mode : il reste blanc, texte encre, en toutes circonstances. -->
+<div
+  id="menu-mobile"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-label="Navigation"
+  class="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-papier text-encre lg:hidden"
+>
+  <div class="flex items-center justify-end px-5 py-4">
+    <button type="button" id="menu-fermer" class="menu-texte p-2">Fermer</button>
+  </div>
+
+  <nav class="flex-1 pb-16" aria-label="Navigation mobile">
+    <ul class="flex flex-col gap-3 px-5">
+      <li>
+        <a href="/" class="item flex items-center gap-3 py-1" style="--l:88px">
+          <span class="filet" aria-hidden="true"></span>
+          <span class="menu-texte">Accueil</span>
+        </a>
+      </li>
+      <li>
+        <a href="/collections" class="item flex items-center gap-3 py-1" style="--l:120px">
+          <span class="filet" aria-hidden="true"></span>
+          <span class="menu-texte">Collections</span>
+        </a>
+      </li>
+      <li>
+        <a href="/contact" class="item flex items-center gap-3 py-1" style="--l:152px">
+          <span class="filet" aria-hidden="true"></span>
+          <span class="menu-texte">Rencontrons-nous</span>
+        </a>
+      </li>
+    </ul>
+
+    <ul class="mt-16 flex flex-col gap-3 px-5">
+      {
+        PAGES_MENU.map(({ href, libelle, filet }) => (
+          <li>
+            <a
+              href={href}
+              class="item flex items-center gap-3 py-1"
+              style={`--l:${filet}px`}
+            >
+              <span class="filet" aria-hidden="true" />
+              <span class="menu-texte">{libelle}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</div>
 
 <style>
   /* Les colonnes touchent les bords : aucun padding horizontal commun.
-     Le padding-top varie selon superpose (voir classes Tailwind sur le composant). */
+     Le padding-top varie selon menuSurImage (voir classes Tailwind sur le composant). */
   .menu-colonne {
     padding-bottom: 28px;
   }
@@ -203,6 +212,12 @@ const estActif = (href: string) => chemin === href.split('?')[0]
 
   .item:hover .filet {
     width: calc(var(--l) + 8px);
+  }
+
+  /* Contour de focus blanc : le mode difference le rend noir sur fond
+     blanc et blanc sur l'image, toujours visible. */
+  [data-menu-sur-image] :focus-visible {
+    outline-color: var(--color-papier);
   }
 </style>
 

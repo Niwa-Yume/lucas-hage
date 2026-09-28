@@ -1,0 +1,47 @@
+---
+/**
+ * Ouverture des pages interieures : image 80svh sous le menu, titre blanc
+ * en bas a gauche, puis introduction sur fond blanc precedee d'un filet
+ * parti du bord gauche. A utiliser avec <Layout menuSurImage>.
+ */
+interface Props {
+  titre: string
+  image: string
+  alt: string
+  largeur: number
+  hauteur: number
+  /** Cadrage de l'image, valeur CSS object-position. */
+  cadrage?: string
+}
+
+const { titre, image, alt, largeur, hauteur, cadrage = 'center' } = Astro.props
+---
+
+<section class="relative h-[80svh] w-full overflow-hidden bg-encre">
+  <img
+    src={image}
+    alt={alt}
+    width={largeur}
+    height={hauteur}
+    loading="eager"
+    fetchpriority="high"
+    class="absolute inset-0 h-full w-full object-cover"
+    style={`object-position: ${cadrage}`}
+  />
+  <h1
+    class="absolute inset-x-0 bottom-0 px-5 pb-8 font-titre text-titre leading-tight text-papier md:px-8 md:pb-12 md:text-hero"
+  >
+    {titre}
+  </h1>
+</section>
+
+{
+  Astro.slots.has('default') && (
+    <div class="flex items-start gap-4 py-12 pr-5 md:gap-8 md:py-16 md:pr-8">
+      <span class="mt-3 block h-px w-12 flex-none bg-encre md:w-1/2" aria-hidden="true" />
+      <div class="text-courant">
+        <slot />
+      </div>
+    </div>
+  )
+}

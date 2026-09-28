@@ -8,15 +8,15 @@ interface Props {
   title: string
   description: string
   image?: string
-  /** Vrai sur l'accueil : le menu se superpose au contenu, qui demarre a y = 0. */
-  superpose?: boolean
+  /** Vrai si la page s'ouvre sur une image : le menu se pose dessus, le contenu demarre a y = 0. */
+  menuSurImage?: boolean
 }
 
 const {
   title,
   description,
   image = '/assets/hero-poster.jpg',
-  superpose = false,
+  menuSurImage = false,
 } = Astro.props
 
 const base = Astro.site ?? new URL('https://lucas-hage.com')
@@ -64,7 +64,7 @@ const urlImage = new URL(image, base)
       Aller au contenu
     </a>
 
-    <Header superpose={superpose} />
+    <Header menuSurImage={menuSurImage} />
 
     <!-- Marge basse sur mobile : le CTA collant recouvre le bas de page. -->
     <main id="contenu" class="pb-20 md:pb-0">
