@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro'
 import { COLLECTIONS } from '@/data/collections'
 
-const VIDEO_HERO = '/assets/hero.mp4'
+const VIDEO_HERO = '/assets/hero.webm'
 const POSTER_HERO = '/assets/hero-poster.jpg'
 
 // Un bandeau pleine largeur, deux colonnes, puis le bandeau « Qui suis-je ».
@@ -27,7 +27,7 @@ const enColonnes = [colonneGauche, colonneDroite].filter(Boolean)
       aria-hidden="true"
       tabindex="-1"
     >
-      <source src={VIDEO_HERO} type="video/mp4" />
+      <source src={VIDEO_HERO} type="video/webm" />
     </video>
 
     <img
