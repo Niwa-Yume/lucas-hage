@@ -50,3 +50,27 @@ export function lienSurMesure(): string {
     'Bonjour, je souhaiterais discuter d une piece sur mesure.',
   )
 }
+
+export interface DemandeRendezVous {
+  prenom: string
+  nom: string
+  email: string
+  telephone: string
+  message: string
+}
+
+/**
+ * Formulaire de la page contact : rien n est envoye ni stocke par le site,
+ * le visiteur envoie lui-meme le message pre-rempli depuis WhatsApp.
+ */
+export function lienDemandeRendezVous(demande: DemandeRendezVous): string {
+  const lignes = [
+    'Bonjour, je souhaiterais prendre rendez-vous a l atelier.',
+    '',
+    `Nom : ${demande.prenom} ${demande.nom}`,
+  ]
+  if (demande.email) lignes.push(`Email : ${demande.email}`)
+  if (demande.telephone) lignes.push(`Telephone : ${demande.telephone}`)
+  lignes.push('', demande.message)
+  return lienWhatsApp(lignes.join('\n'))
+}
