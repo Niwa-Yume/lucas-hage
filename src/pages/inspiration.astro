@@ -1,69 +1,170 @@
 ---
 import Layout from '@/layouts/Layout.astro'
+import PageHero from '@/components/PageHero.astro'
 
-const IMAGES = [
+interface ImageTheme {
+  src: string
+  alt: string
+  largeur: number
+  hauteur: number
+}
+
+interface Theme {
+  libelle: string
+  texte: string
+  images: ImageTheme[]
+}
+
+// TEXTE A VALIDER AVEC LUCAS : les themes sont tires des pieces
+// elles-memes, sans prêter a Lucas des references qu il n a pas citees.
+const THEMES: Theme[] = [
   {
-    src: '/assets/inspiration-01.jpg',
-    alt: "Buste en veste noire, mains couvertes de bagues, bracelets et chaînes en argent.",
-    width: 2400,
-    height: 1600,
+    libelle: 'Les vanités',
+    texte:
+      "Le crâne, le squelette : les motifs des vanités rappellent que le " +
+      "temps passe. Portés à la main, ils deviennent une présence familière.",
+    images: [
+      {
+        src: '/assets/memento-mori/memento-mori-01.jpg',
+        alt: 'Bague en forme de crâne en métal clair poli, posée sur un bloc de béton brut.',
+        largeur: 2560,
+        hauteur: 1707,
+      },
+      {
+        src: '/assets/memento-mori/memento-mori-02.jpg',
+        alt: "Chevalière en métal clair ornée d'un squelette aux ailes repliées, posée sur un bloc de béton brut.",
+        largeur: 2560,
+        hauteur: 1707,
+      },
+    ],
   },
   {
-    src: '/assets/hero-secondaire.jpg',
-    alt: "Main portant cinq bagues en argent aux formes anguleuses, reliées par une chaîne, devant un visage.",
-    width: 1600,
-    height: 2400,
+    libelle: 'La chevalerie',
+    texte:
+      "L'écusson, les armoiries, le navire gravé : la chevalière porte " +
+      "depuis toujours un signe d'appartenance. Ici, chacun choisit le sien.",
+    images: [
+      {
+        src: '/assets/new-chivalry/new-chivalry-03.jpg',
+        alt: "Chevalière en métal clair au plateau en écusson gravé d'armoiries, posée sur un bloc de béton brut.",
+        largeur: 2560,
+        hauteur: 1706,
+      },
+      {
+        src: '/assets/new-chivalry/new-chivalry-01.jpg',
+        alt: "Chevalière en métal clair gravée d'un trois-mâts sur une mer émaillée bleu et vert, posée sur un bloc de béton brut.",
+        largeur: 2560,
+        hauteur: 1706,
+      },
+    ],
   },
   {
-    src: '/assets/campagne-chaines.jpg',
-    alt: "Pendentif ciselé en forme de cœur, suspendu à plusieurs chaînes en argent portées à même la peau, en noir et blanc.",
-    width: 1600,
-    height: 2400,
+    libelle: 'Le vivant',
+    texte:
+      "Alvéoles, nervures, os : le métal reprend les structures du vivant, " +
+      'ajourées comme un squelette ou un rayon de cire.',
+    images: [
+      {
+        src: '/assets/alien/alien-06.jpg',
+        alt: 'Pendentif ajouré en forme de cage thoracique, semé de pierres violettes, suspendu à une chaîne fine.',
+        largeur: 1600,
+        hauteur: 1066,
+      },
+      {
+        src: '/assets/alien/alien-08.jpg',
+        alt: "Pièce ajourée en forme d'aile, maillage de métal sombre et doré, sertie d'une pierre rouge, sur fond noir.",
+        largeur: 1600,
+        hauteur: 1066,
+      },
+    ],
   },
   {
-    src: '/assets/atelier-croquis.jpg',
-    alt: "Lucas Hage dessine au fusain deux projets de bijoux animaliers sur un carnet posé sur ses genoux.",
-    width: 1920,
-    height: 2400,
+    libelle: 'Le bestiaire',
+    texte:
+      "Le chat, le lion : des figures animales sculptées en volume, chacune " +
+      'avec son regard et son caractère.',
+    images: [
+      {
+        src: '/assets/patrimoine/patrimoine-01.jpg',
+        alt: "Bague tête de chat en métal sombre, un œil serti d'une pierre rouge, posée sur un bloc de béton brut.",
+        largeur: 2560,
+        hauteur: 1706,
+      },
+      {
+        src: '/assets/patrimoine/patrimoine-02.jpg',
+        alt: 'Bague tête de lion en métal patiné, crinière ciselée, posée sur un bloc de béton brut.',
+        largeur: 2560,
+        hauteur: 1707,
+      },
+    ],
   },
   {
-    src: '/assets/atelier-etabli.jpg',
-    alt: "Étagères de l'atelier en bois brut : bouterolles, dés à emboutir, boule à sertir, tubes de pierres et chaînes en cuivre.",
-    width: 1988,
-    height: 2400,
+    libelle: "L'atelier",
+    texte:
+      "Tout commence par un dessin, puis passe par l'établi : les outils, les " +
+      'pierres en attente, les chaînes en cours.',
+    images: [
+      {
+        src: '/assets/atelier-croquis.jpg',
+        alt: 'Lucas Hage dessine au fusain deux projets de bijoux animaliers sur un carnet posé sur ses genoux.',
+        largeur: 1920,
+        hauteur: 2400,
+      },
+      {
+        src: '/assets/atelier-etabli.jpg',
+        alt: "Étagères de l'atelier en bois brut : bouterolles, dés à emboutir, boule à sertir, tubes de pierres et chaînes en cuivre.",
+        largeur: 1988,
+        hauteur: 2400,
+      },
+    ],
   },
 ]
 ---
 
 <Layout
   title="Inspiration — Lucas Hage"
-  description="Les références, les matières et les images qui nourrissent les pièces de l'atelier."
+  description="Vanités, chevalerie, formes du vivant, bestiaire : les motifs qui reviennent dans les pièces de l'atelier de Lucas Hage."
+  image="/assets/campagne-chaines.jpg"
+  menuSurImage
 >
-  <header class="px-5 pt-10 pb-10 md:px-8 md:pt-14 md:pb-16">
-    <p class="libelle">Inspiration</p>
-    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
-      À RÉDIGER
-    </h1>
-    <p class="mt-6 text-courant">À RÉDIGER</p>
-  </header>
-
-  <section
-    class="grid items-start gap-5 px-5 pb-section-mobile md:grid-cols-2 md:gap-8 md:px-8 md:pb-section"
+  <PageHero
+    titre="Inspiration"
+    image="/assets/campagne-chaines.jpg"
+    alt="Pendentif ciselé en forme de cœur, suspendu à plusieurs chaînes en argent portées à même la peau, en noir et blanc."
+    largeur={1600}
+    hauteur={2400}
   >
-    {
-      IMAGES.map((image, index) => (
-        <figure class={index === 0 ? 'md:col-span-2' : undefined}>
-          <img
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            loading="lazy"
-            class="w-full"
-          />
-          <figcaption class="libelle mt-3">À RÉDIGER</figcaption>
-        </figure>
-      ))
-    }
-  </section>
+    <p>
+      Quelques motifs reviennent d'une pièce à l'autre. Ils ne forment pas un
+      programme, plutôt un vocabulaire, que chaque bijou reprend à sa façon.
+    </p>
+  </PageHero>
+
+  {
+    THEMES.map((theme) => (
+      <section class="border-t border-encre px-5 py-section-mobile md:px-8 md:py-section">
+        <div class="grid gap-8 md:grid-cols-[1fr_2fr] md:gap-16">
+          <div>
+            <h2 class="libelle">{theme.libelle}</h2>
+            <p class="mt-5 text-courant">{theme.texte}</p>
+          </div>
+
+          <div class="grid items-start gap-5 sm:grid-cols-2 md:gap-8">
+            {theme.images.map((image) => (
+              <div class="bg-encre">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  width={image.largeur}
+                  height={image.hauteur}
+                  loading="lazy"
+                  class="block h-auto w-full"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
 </Layout>
