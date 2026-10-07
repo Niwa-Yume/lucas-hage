@@ -1,4 +1,6 @@
 ---
+import { TELEPHONE } from '@/lib/whatsapp'
+
 const INSTAGRAM = 'https://www.instagram.com/lucas.hage.jewellery/'
 const EMAIL = 'contact@lucashage.com'
 const annee = new Date().getFullYear()
@@ -17,6 +19,11 @@ const annee = new Date().getFullYear()
     <div>
       <h2 class="libelle">Contact</h2>
       <ul class="mt-4 flex flex-col gap-2">
+        <li>
+          <a href={TELEPHONE.lien} class="text-courant underline underline-offset-4">
+            {TELEPHONE.affiche}
+          </a>
+        </li>
         <li>
           <a href={`mailto:${EMAIL}`} class="text-courant underline underline-offset-4">
             {EMAIL}

@@ -1,6 +1,14 @@
 import type { Matiere, Piece } from './types'
 
-const NUMERO = import.meta.env.PUBLIC_WHATSAPP_NUMBER
+/** Numero de Lucas, public : affiche sur le site et utilise pour WhatsApp. */
+export const TELEPHONE = {
+  affiche: '078 242 32 92',
+  lien: 'tel:+41782423292',
+}
+
+// Format wa.me : international, sans + ni espaces. La variable
+// d environnement reste prioritaire si elle est definie.
+const NUMERO = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '41782423292'
 
 const LIBELLES_MATIERE: Record<Matiere, string> = {
   argent: 'Argent',

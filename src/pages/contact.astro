@@ -1,7 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import PageHero from '@/components/PageHero.astro'
-import { lienSurMesure } from '@/lib/whatsapp'
+import { lienSurMesure, TELEPHONE } from '@/lib/whatsapp'
 
 const INSTAGRAM = 'https://www.instagram.com/lucas.hage.jewellery/'
 const EMAIL = 'contact@lucashage.com'
@@ -44,6 +44,11 @@ const surMesure = lienSurMesure()
       <div>
         <h2 class="libelle">Autrement</h2>
         <ul class="mt-5 flex flex-col gap-2">
+          <li>
+            <a href={TELEPHONE.lien} class="text-courant underline underline-offset-4">
+              {TELEPHONE.affiche}
+            </a>
+          </li>
           <li>
             <a
               href={surMesure}
