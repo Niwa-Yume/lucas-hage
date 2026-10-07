@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
-import { lienSurMesure } from '@/lib/whatsapp'
+import PageHero from '@/components/PageHero.astro'
+import { lienSurMesure, TELEPHONE } from '@/lib/whatsapp'
 
 const INSTAGRAM = 'https://www.instagram.com/lucas.hage.jewellery/'
 const EMAIL = 'contact@lucashage.com'
@@ -8,64 +9,207 @@ const surMesure = lienSurMesure()
 ---
 
 <Layout
-  title="Contact — Lucas Hage"
+  title="Rencontrons-nous — Lucas Hage"
   description="Atelier de joaillerie à Cornavin, au centre de Genève. Prise de rendez-vous et demandes sur mesure par WhatsApp."
+  menuSurImage
 >
-  <header class="px-5 pt-10 pb-10 md:px-8 md:pt-14 md:pb-16">
-    <p class="libelle">Contact</p>
-    <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
-      Parlons de votre pièce
-    </h1>
-  </header>
+  <PageHero
+    titre="Rencontrons-nous"
+    image="/assets/hero-poster.jpg"
+    alt="Lucas Hage, de dos, au travail devant son établi éclairé dans l'atelier."
+    largeur={1920}
+    hauteur={1080}
+  >
+    <p>
+      Une idée, une pierre à remonter, une pièce à imaginer : l'atelier reçoit
+      sur rendez-vous. Dites-m'en quelques mots, je vous réponds pour convenir
+      d'un moment.
+    </p>
+  </PageHero>
 
   <section
-    class="grid gap-12 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
+    class="grid gap-16 px-5 pb-section-mobile md:grid-cols-2 md:gap-16 md:px-8 md:pb-section"
   >
-    <div>
-      <h2 class="libelle">L'atelier</h2>
-      <address class="mt-5 text-courant not-italic">
-        Cornavin<br />
-        1201 Genève<br />
-        Suisse
-      </address>
-      <p class="mt-4 text-courant">
-        L'atelier reçoit sur rendez-vous. Écrivez-moi pour convenir d'un moment.
-      </p>
+    <div class="flex flex-col gap-12">
+      <div>
+        <h2 class="libelle">L'atelier</h2>
+        <address class="mt-5 text-courant not-italic">
+          Cornavin<br />
+          1201 Genève<br />
+          Suisse
+        </address>
+        <p class="mt-4 text-courant">Sur rendez-vous uniquement.</p>
+      </div>
+
+      <div>
+        <h2 class="libelle">Autrement</h2>
+        <ul class="mt-5 flex flex-col gap-2">
+          <li>
+            <a href={TELEPHONE.lien} class="text-courant underline underline-offset-4">
+              {TELEPHONE.affiche}
+            </a>
+          </li>
+          <li>
+            <a
+              href={surMesure}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-courant underline underline-offset-4"
+            >
+              WhatsApp
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${EMAIL}`} class="text-courant underline underline-offset-4">
+              {EMAIL}
+            </a>
+          </li>
+          <li>
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-courant underline underline-offset-4"
+            >
+              Instagram — @lucas.hage.jewellery
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div>
-      <h2 class="libelle">Écrire</h2>
-      <p class="mt-5 text-courant">
-        Une idée, une pierre à remonter, une pièce à imaginer : le plus simple
-        est de m'envoyer un message.
-      </p>
+      <h2 id="rendez-vous-titre" class="libelle">Prendre rendez-vous</h2>
 
-      <a
-        href={surMesure}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="libelle mt-7 inline-block bg-encre px-6 py-4 text-papier hover:bg-papier hover:text-encre border border-encre"
+      <!-- Le formulaire ne transmet rien au site : il assemble un message
+           WhatsApp que le visiteur envoie lui-même (voir lienDemandeRendezVous). -->
+      <form
+        id="rendez-vous"
+        class="mt-5 grid gap-5 sm:grid-cols-2"
+        aria-labelledby="rendez-vous-titre"
+        novalidate
       >
-        Écrire sur WhatsApp
-      </a>
+        <div class="champ">
+          <label for="rdv-prenom" class="libelle">Prénom</label>
+          <input id="rdv-prenom" name="prenom" type="text" required autocomplete="given-name" />
+        </div>
+        <div class="champ">
+          <label for="rdv-nom" class="libelle">Nom</label>
+          <input id="rdv-nom" name="nom" type="text" required autocomplete="family-name" />
+        </div>
+        <div class="champ">
+          <label for="rdv-email" class="libelle">Email (facultatif)</label>
+          <input id="rdv-email" name="email" type="email" autocomplete="email" />
+        </div>
+        <div class="champ">
+          <label for="rdv-telephone" class="libelle">Téléphone (facultatif)</label>
+          <input id="rdv-telephone" name="telephone" type="tel" autocomplete="tel" />
+        </div>
+        <div class="champ sm:col-span-2">
+          <label for="rdv-message" class="libelle">Message</label>
+          <textarea id="rdv-message" name="message" rows="6" required></textarea>
+        </div>
 
-      <ul class="mt-8 flex flex-col gap-2">
-        <li>
-          <a href={`mailto:${EMAIL}`} class="text-courant underline underline-offset-4">
-            {EMAIL}
-          </a>
-        </li>
-        <li>
-          <a
-            href={INSTAGRAM}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="text-courant underline underline-offset-4"
+        <div class="sm:col-span-2">
+          <button
+            type="submit"
+            class="libelle border border-encre bg-encre px-6 py-4 text-papier transition-colors hover:bg-papier hover:text-encre"
           >
-            Instagram — @lucas.hage.jewellery
-          </a>
-        </li>
-      </ul>
+            Envoyer sur WhatsApp
+          </button>
+          <p id="rendez-vous-statut" class="mt-4 text-courant" role="status" aria-live="polite"></p>
+          <p class="mt-4 text-courant text-plomb">
+            Le bouton ouvre WhatsApp avec votre message prêt à envoyer. Ce site
+            n'enregistre aucune de ces informations.
+          </p>
+          <noscript>
+            <p class="mt-4 text-courant">
+              Le formulaire demande JavaScript. Vous pouvez m'écrire directement
+              sur <a href={surMesure} class="underline underline-offset-4">WhatsApp</a>.
+            </p>
+          </noscript>
+        </div>
+      </form>
     </div>
   </section>
 </Layout>
+
+<style>
+  .champ {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .champ input,
+  .champ textarea {
+    width: 100%;
+    border: 1px solid var(--color-encre);
+    background: var(--color-papier);
+    padding: 0.75rem;
+    font-size: var(--text-courant);
+    color: var(--color-encre);
+  }
+
+  .champ textarea {
+    resize: vertical;
+  }
+
+  .champ input[aria-invalid='true'],
+  .champ textarea[aria-invalid='true'] {
+    outline: 2px solid var(--color-encre);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  import { lienDemandeRendezVous } from '@/lib/whatsapp'
+
+  const formulaire = document.getElementById('rendez-vous') as HTMLFormElement | null
+  const statut = document.getElementById('rendez-vous-statut')
+
+  if (formulaire && statut) {
+    formulaire.addEventListener('submit', (evenement) => {
+      evenement.preventDefault()
+
+      const champs = Array.from(
+        formulaire.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea'),
+      )
+      champs.forEach((champ) => {
+        champ.value = champ.value.trim()
+        champ.setAttribute('aria-invalid', String(!champ.checkValidity()))
+      })
+
+      const invalide = champs.find((champ) => !champ.checkValidity())
+      if (invalide) {
+        statut.textContent =
+          invalide.type === 'email'
+            ? 'Merci de vérifier votre adresse email.'
+            : 'Merci de renseigner votre prénom, votre nom et votre message.'
+        invalide.focus()
+        return
+      }
+
+      const valeur = (nom: string) =>
+        (formulaire.elements.namedItem(nom) as HTMLInputElement).value
+
+      const lien = lienDemandeRendezVous({
+        prenom: valeur('prenom'),
+        nom: valeur('nom'),
+        email: valeur('email'),
+        telephone: valeur('telephone'),
+        message: valeur('message'),
+      })
+
+      // Lien cliqué dans le geste de l'utilisateur : WhatsApp s'ouvre dans
+      // un nouvel onglet sans être bloqué comme une fenêtre surgissante.
+      const ouverture = document.createElement('a')
+      ouverture.href = lien
+      ouverture.target = '_blank'
+      ouverture.rel = 'noopener noreferrer'
+      ouverture.click()
+
+      statut.textContent = 'WhatsApp s’ouvre avec votre message. Il ne reste qu’à l’envoyer.'
+    })
+  }
+</script>

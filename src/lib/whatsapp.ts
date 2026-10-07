@@ -1,6 +1,14 @@
 import type { Matiere, Piece } from './types'
 
-const NUMERO = import.meta.env.PUBLIC_WHATSAPP_NUMBER
+/** Numero de Lucas, public : affiche sur le site et utilise pour WhatsApp. */
+export const TELEPHONE = {
+  affiche: '078 242 32 92',
+  lien: 'tel:+41782423292',
+}
+
+// Format wa.me : international, sans + ni espaces. La variable
+// d environnement reste prioritaire si elle est definie.
+const NUMERO = import.meta.env.PUBLIC_WHATSAPP_NUMBER || '41782423292'
 
 const LIBELLES_MATIERE: Record<Matiere, string> = {
   argent: 'Argent',
@@ -49,4 +57,28 @@ export function lienSurMesure(): string {
   return lienWhatsApp(
     'Bonjour, je souhaiterais discuter d une piece sur mesure.',
   )
+}
+
+export interface DemandeRendezVous {
+  prenom: string
+  nom: string
+  email: string
+  telephone: string
+  message: string
+}
+
+/**
+ * Formulaire de la page contact : rien n est envoye ni stocke par le site,
+ * le visiteur envoie lui-meme le message pre-rempli depuis WhatsApp.
+ */
+export function lienDemandeRendezVous(demande: DemandeRendezVous): string {
+  const lignes = [
+    'Bonjour, je souhaiterais prendre rendez-vous a l atelier.',
+    '',
+    `Nom : ${demande.prenom} ${demande.nom}`,
+  ]
+  if (demande.email) lignes.push(`Email : ${demande.email}`)
+  if (demande.telephone) lignes.push(`Telephone : ${demande.telephone}`)
+  lignes.push('', demande.message)
+  return lienWhatsApp(lignes.join('\n'))
 }

@@ -15,8 +15,10 @@ Pas de vente en ligne, pas de panier, pas de paiement, pas de compte utilisateur
 2. **N'ajoute aucune dépendance** sans demander. Le stack ci-dessous est fermé.
 3. **Pas de `localStorage`, pas de cookie, pas d'analytics.** Le site ne collecte
    rien à part l'email de la newsletter.
-4. **Pas de formulaire de contact.** La conversion passe par un lien `wa.me`.
-   Le seul `<form>` du site est la newsletter.
+4. **Pas de formulaire qui transmet des données.** La conversion passe par un
+   lien `wa.me`. Deux `<form>` seulement : la newsletter, et le formulaire de
+   rendez-vous de `/contact`, qui assemble un message WhatsApp pré-rempli que le
+   visiteur envoie lui-même. Rien n'est envoyé au serveur ni stocké.
 5. **Français partout** : contenu, commentaires, noms de variables métier
    (`piece`, `collection`, `matiere`, `patrimoine`).
 6. **Un composant par tâche.** Ne génère jamais plusieurs pages d'un coup.
