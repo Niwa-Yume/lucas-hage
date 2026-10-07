@@ -1,7 +1,7 @@
 # AGENTS.md — Lucas Hage
 
 Site vitrine pour Lucas Hage, créateur et artisan suisse de bijoux sur mesure,
-atelier à Genève (quartier des Grottes).
+atelier à Cornavin, au centre de Genève.
 
 Objectif du site : présenter les pièces et convertir en prise de contact WhatsApp.
 Pas de vente en ligne, pas de panier, pas de paiement, pas de compte utilisateur.
@@ -65,7 +65,8 @@ Les 4 collections sont **en dur** dans `src/data/collections.ts`. Elles ne sont 
 éditables depuis le CMS. Ne crée pas de type `collection` dans Sanity.
 
 `patrimoine` est un statut, pas un type. Une pièce basculée en `patrimoine`
-disparaît de sa collection et apparaît sur `/patrimoine`. Jamais de duplication.
+disparaît de sa collection et apparaît sur `/collections/patrimoine`, rangé en
+carte à la suite des 4 collections sur `/collections`. Jamais de duplication.
 
 ## Pages
 
@@ -73,8 +74,8 @@ disparaît de sa collection et apparaît sur `/patrimoine`. Jamais de duplicatio
 /                        Accueil
 /qui-suis-je
 /collections
-/collections/[slug]      chevalieres | new-chivalry | memento-mori | bestiaire
-/patrimoine
+/collections/[slug]      new-chivalry | terrible-beaute | memento-mori | alien
+/collections/patrimoine  (/patrimoine y redirige)
 /inspiration
 /contact
 /mentions-legales

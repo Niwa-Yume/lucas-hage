@@ -1,5 +1,6 @@
 ---
 import Layout from '@/layouts/Layout.astro'
+import { PHOTOS_PATRIMOINE } from '@/data/collections'
 import type { ImagePiece, Piece } from '@/lib/types'
 
 // Même repli que les pages de collection tant que Sanity n'est pas configuré.
@@ -17,6 +18,9 @@ try {
 } catch {
   cmsIndisponible = true
 }
+
+// TEMPORAIRE : sans pièce Sanity, on montre les photos en dur du patrimoine.
+const photos = pieces.length === 0 ? PHOTOS_PATRIMOINE : []
 ---
 
 <Layout
@@ -25,7 +29,10 @@ try {
   image="/assets/campagne-chaines.jpg"
 >
   <header class="px-5 pt-10 pb-10 md:px-8 md:pt-14 md:pb-16">
-    <p class="libelle">Patrimoine</p>
+    <p class="libelle">
+      <a href="/collections" class="underline-offset-4 hover:underline">Collections</a>
+      <span aria-hidden="true"> / </span>Patrimoine
+    </p>
     <h1 class="mt-4 font-titre text-titre leading-tight md:text-hero">
       La mémoire de l'atelier
     </h1>
@@ -50,7 +57,22 @@ try {
     <h2 class="libelle">Les pièces</h2>
 
     {
-      pieces.length > 0 && urlFor ? (
+      photos.length > 0 ? (
+        <ul class="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8">
+          {photos.map((photo) => (
+            <li class="bg-encre">
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.largeur}
+                height={photo.hauteur}
+                loading="lazy"
+                class="aspect-[4/5] w-full object-cover"
+              />
+            </li>
+          ))}
+        </ul>
+      ) : pieces.length > 0 && urlFor ? (
         <ul class="mt-8 grid gap-x-5 gap-y-12 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8">
           {pieces.map((piece) => (
             <li>

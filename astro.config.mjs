@@ -12,6 +12,10 @@ export default defineConfig({
     // Vercel définit VERCEL=1 pendant son build ; ailleurs (local, Infomaniak) on garde Node.
     adapter: process.env.VERCEL ? vercel() : node({ mode: 'standalone' }),
     integrations: [react(), sitemap()],
+    // Patrimoine vit désormais sous /collections : on garde l'ancienne adresse.
+    redirects: {
+        '/patrimoine': '/collections/patrimoine',
+    },
     vite: {
         plugins: [tailwindcss()],
         resolve: {
