@@ -50,6 +50,9 @@ try {
 } catch {
   cmsIndisponible = true
 }
+
+// TEMPORAIRE : sans pièce Sanity, on montre les photos en dur de la collection.
+const photos = pieces.length === 0 ? (collection.photos ?? []) : []
 ---
 
 <Layout
@@ -75,6 +78,7 @@ try {
         alt={collection.couvertureAlt}
         width={collection.couvertureLargeur}
         height={collection.couvertureHauteur}
+        style={collection.couverturePosition && `object-position: ${collection.couverturePosition}`}
         loading="lazy"
         class="aspect-[3/2] w-full object-cover"
       />
@@ -85,24 +89,41 @@ try {
   <section class="px-5 pt-28 md:px-8 md:pt-[180px]">
     <h2 class="sr-only">Les pièces</h2>
 
-    <ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-      {
-        FILTRES.map((filtre) => (
-          <li>
-            <a
-              href={`/collections/${collection.slug}?type=${filtre.valeur}`}
-              class="filtre"
-              aria-current={typeActif === filtre.valeur ? 'true' : undefined}
-            >
-              {filtre.libelle}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
+    {
+      photos.length === 0 && (
+        <ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
+          {FILTRES.map((filtre) => (
+            <li>
+              <a
+                href={`/collections/${collection.slug}?type=${filtre.valeur}`}
+                class="filtre"
+                aria-current={typeActif === filtre.valeur ? 'true' : undefined}
+              >
+                {filtre.libelle}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
 
     {
-      pieces.length > 0 && urlFor ? (
+      photos.length > 0 ? (
+        <ul class="grid grid-cols-1 gap-x-8 gap-y-8 md:grid-cols-2">
+          {photos.map((photo) => (
+            <li class="bg-encre">
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.largeur}
+                height={photo.hauteur}
+                loading="lazy"
+                class="block h-auto w-full"
+              />
+            </li>
+          ))}
+        </ul>
+      ) : pieces.length > 0 && urlFor ? (
         <ul class="mt-20 grid grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-4">
           {pieces.map((piece) => (
             <li>

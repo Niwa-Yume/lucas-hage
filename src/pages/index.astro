@@ -5,14 +5,14 @@ import { COLLECTIONS } from '@/data/collections'
 const VIDEO_HERO = '/assets/hero.webm'
 const POSTER_HERO = '/assets/hero-poster.jpg'
 
-// Un bandeau pleine largeur, deux colonnes, puis le bandeau « Qui suis-je ».
-const [bandeauHaut, colonneGauche, colonneDroite] = COLLECTIONS
-const enColonnes = [colonneGauche, colonneDroite].filter(Boolean)
+// Deux bandeaux pleine largeur, deux colonnes, puis le bandeau « Qui suis-je ».
+const bandeaux = COLLECTIONS.slice(0, 2)
+const enColonnes = COLLECTIONS.slice(2, 4)
 ---
 
 <Layout
   title="Lucas Hage — Créateur et artisan suisse de bijoux sur mesure"
-  description="Atelier de joaillerie à Genève, quartier des Grottes. Chevalières, pièces sur mesure et créations uniques, façonnées à la main."
+  description="Atelier de joaillerie à Cornavin, au centre de Genève. Chevalières, pièces sur mesure et créations uniques, façonnées à la main."
   menuSurImage
 >
   <section class="hero relative h-[100svh] w-full overflow-hidden bg-encre">
@@ -49,24 +49,24 @@ const enColonnes = [colonneGauche, colonneDroite].filter(Boolean)
   </section>
 
   {
-    bandeauHaut && (
+    bandeaux.map((collection) => (
       <section class="relative w-full overflow-hidden bg-encre">
         <img
-          src={bandeauHaut.couverture}
-          alt={bandeauHaut.couvertureAlt}
-          width={bandeauHaut.couvertureLargeur}
-          height={bandeauHaut.couvertureHauteur}
+          src={collection.couverture}
+          alt={collection.couvertureAlt}
+          width={collection.couvertureLargeur}
+          height={collection.couvertureHauteur}
           loading="lazy"
           class="block h-auto w-full"
         />
         <div class="bandeau-legende absolute inset-x-0 bottom-[12%] px-5 text-center">
-          <p class="bandeau-nom">{bandeauHaut.nom}</p>
-          <a href={`/collections/${bandeauHaut.slug}`} class="lien-decouvrir">
+          <p class="bandeau-nom">{collection.nom}</p>
+          <a href={`/collections/${collection.slug}`} class="lien-decouvrir">
             Découvrir
           </a>
         </div>
       </section>
-    )
+    ))
   }
 
   <section class="px-5 py-40 md:px-8 md:py-[16rem]">
@@ -82,6 +82,7 @@ const enColonnes = [colonneGauche, colonneDroite].filter(Boolean)
                 alt={collection.couvertureAlt}
                 width={collection.couvertureLargeur}
                 height={collection.couvertureHauteur}
+                style={collection.couverturePosition && `object-position: ${collection.couverturePosition}`}
                 loading="lazy"
                 class="aspect-[3/4] w-full object-cover"
               />

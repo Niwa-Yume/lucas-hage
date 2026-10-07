@@ -59,10 +59,10 @@ export const piece = defineType({
       description: 'Laissez vide s’il s’agit d’une pièce unique ou sur mesure.',
       options: {
         list: [
-          { title: 'Chevalières', value: 'chevalieres' },
-          { title: 'New Chivalry', value: 'new-chivalry' },
-          { title: 'Memento Mori', value: 'memento-mori' },
-          { title: 'Bestiaire', value: 'bestiaire' },
+          { title: 'Memento mori', value: 'memento-mori' },
+          { title: 'Terrible beauté', value: 'terrible-beaute' },
+          { title: 'New chivalry', value: 'new-chivalry' },
+          { title: 'Alien', value: 'alien' },
         ],
         layout: 'dropdown',
       },

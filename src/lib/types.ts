@@ -1,10 +1,10 @@
 export type Statut = 'visible' | 'patrimoine' | 'masquee'
 
 export type SlugCollection =
-  | 'chevalieres'
-  | 'new-chivalry'
   | 'memento-mori'
-  | 'bestiaire'
+  | 'terrible-beaute'
+  | 'new-chivalry'
+  | 'alien'
 
 export type Matiere = 'argent' | 'or-jaune' | 'or-blanc' | 'or-rose' | 'bronze'
 

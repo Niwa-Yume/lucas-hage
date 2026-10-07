@@ -6,7 +6,7 @@ import { COLLECTIONS } from '@/data/collections'
 
 <Layout
   title="Collections — Lucas Hage"
-  description="Chevalières, New Chivalry, Memento Mori et Bestiaire : les quatre collections de l'atelier genevois de Lucas Hage."
+  description="New chivalry, Terrible beauté, Memento mori et Alien : les quatre collections de l'atelier genevois de Lucas Hage, et son patrimoine."
   menuSurImage
 >
   <PageHero
@@ -32,6 +32,7 @@ import { COLLECTIONS } from '@/data/collections'
                 alt={collection.couvertureAlt}
                 width={collection.couvertureLargeur}
                 height={collection.couvertureHauteur}
+                style={collection.couverturePosition && `object-position: ${collection.couverturePosition}`}
                 loading="lazy"
                 class="aspect-[4/5] w-full object-cover"
               />
@@ -44,5 +45,26 @@ import { COLLECTIONS } from '@/data/collections'
         </article>
       ))
     }
+
+    <!-- Patrimoine n'est pas une collection mais un statut de pièce :
+         il reste hors de COLLECTIONS et se range ici, à la suite. -->
+    <article>
+      <a href="/collections/patrimoine" class="group block">
+        <div class="bg-encre">
+          <img
+            src="/assets/cover-patrimoine.png"
+            alt="Bague en argent en forme de poulpe, les tentacules enroulés autour d'une améthyste, sur fond noir."
+            width="360"
+            height="440"
+            loading="lazy"
+            class="aspect-[4/5] w-full object-cover"
+          />
+        </div>
+        <h2 class="mt-5 font-titre text-intertitre leading-tight underline-offset-4 group-hover:underline">
+          Patrimoine
+        </h2>
+      </a>
+      <p class="libelle mt-2">La mémoire de l'atelier</p>
+    </article>
   </section>
 </Layout>
