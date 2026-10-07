@@ -146,20 +146,17 @@ const estActif = (href: string) => chemin === href.split('?')[0]
   <nav class="flex-1 pb-16" aria-label="Navigation mobile">
     <ul class="flex flex-col gap-3 px-5">
       <li>
-        <a href="/" class="item flex items-center gap-3 py-1" style="--l:88px">
-          <span class="filet" aria-hidden="true"></span>
+        <a href="/" class="item flex items-center py-1">
           <span class="menu-texte">Accueil</span>
         </a>
       </li>
       <li>
-        <a href="/collections" class="item flex items-center gap-3 py-1" style="--l:120px">
-          <span class="filet" aria-hidden="true"></span>
+        <a href="/collections" class="item flex items-center py-1">
           <span class="menu-texte">Collections</span>
         </a>
       </li>
       <li>
-        <a href="/contact" class="item flex items-center gap-3 py-1" style="--l:152px">
-          <span class="filet" aria-hidden="true"></span>
+        <a href="/contact" class="item flex items-center py-1">
           <span class="menu-texte">Rencontrons-nous</span>
         </a>
       </li>
@@ -167,14 +164,12 @@ const estActif = (href: string) => chemin === href.split('?')[0]
 
     <ul class="mt-16 flex flex-col gap-3 px-5">
       {
-        PAGES_MENU.map(({ href, libelle, filet }) => (
+        PAGES_MENU.map(({ href, libelle }) => (
           <li>
             <a
               href={href}
-              class="item flex items-center gap-3 py-1"
-              style={`--l:${filet}px`}
+              class="item flex items-center py-1"
             >
-              <span class="filet" aria-hidden="true" />
               <span class="menu-texte">{libelle}</span>
             </a>
           </li>
