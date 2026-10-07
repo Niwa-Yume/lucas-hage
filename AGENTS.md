@@ -77,6 +77,7 @@ carte à la suite des 4 collections sur `/collections`. Jamais de duplication.
 /collections/[slug]      new-chivalry | terrible-beaute | memento-mori | alien
 /collections/patrimoine  (/patrimoine y redirige)
 /inspiration
+/sur-mesure
 /contact
 /mentions-legales
 /politique-confidentialite
